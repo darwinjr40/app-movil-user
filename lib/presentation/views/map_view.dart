@@ -43,8 +43,6 @@ class MapView extends StatelessWidget {
               mapBloc.add(OnMapInitializedEvent(controller)),
 
           //TODO: Markers
-          //TODO: Polylines
-          //TODO: Cuando se mueve el mapa
         ),
       ),
     );

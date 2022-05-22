@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:micros_user_app/data/blocs/blocs.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:micros_user_app/presentation/views/views.dart';
 import 'package:micros_user_app/presentation/widgets/widgets.dart';
 
@@ -42,10 +42,7 @@ class _MapScreenState extends State<MapScreen> {
           }
           return BlocBuilder<MapBloc, MapState>(
             builder: (context, mapState) {
-              Map<String, Polyline> polylines = Map.from(mapState.polylines);
-              if (!mapState.showMyRoute) {
-                polylines.removeWhere((key, value) => key == 'myRoute');
-              }
+              Map<String, Polyline> polylines = {};
               return SingleChildScrollView(
                 child: Stack(
                   children: [
@@ -53,6 +50,7 @@ class _MapScreenState extends State<MapScreen> {
                       initialLocation: locationState.lastKnownLocation!,
                       polylines: polylines.values.toSet(),
                     ),
+                    const CustomSearchBar(),
                   ],
                 ),
               );
@@ -64,7 +62,6 @@ class _MapScreenState extends State<MapScreen> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: const [
-          BtnToogleUserRoute(),
           BtnFollowUser(),
           BtnCurrentLocation(),
         ],
