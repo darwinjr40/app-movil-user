@@ -7,7 +7,12 @@ class BusRoutes {
     '2': ruta2,
     '5': ruta5,
     '8': ruta8,
+    '9': ruta9,
     '10': ruta10,
+    '11': ruta11,
+    '16': ruta16,
+    '17': ruta17,
+    '18': ruta18,
   };
 
   static Set<Polyline> getAllPolylines() {

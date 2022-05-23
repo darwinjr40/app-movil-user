@@ -1,6 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-const List<LatLng> ruta10Vuelta = [
+const List<LatLng> ruta11Vuelta = [
   LatLng(-17.8239968002, -63.095149900099997),
   LatLng(-17.823466199999999, -63.096524000199999),
   LatLng(-17.8232742999, -63.097017300099999),
