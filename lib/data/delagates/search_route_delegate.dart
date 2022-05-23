@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:micros_user_app/data/models/models.dart';
 
-class SearchRouteDelegate extends SearchDelegate {
+class SearchRouteDelegate extends SearchDelegate<SearResult> {
   SearchRouteDelegate()
       : super(
           searchFieldLabel: 'Buscar...',
@@ -22,7 +23,8 @@ class SearchRouteDelegate extends SearchDelegate {
     return IconButton(
       icon: const Icon(Icons.arrow_back_ios),
       onPressed: () {
-        close(context, null);
+        final result = SearResult(cancel: true);
+        close(context, result);
       },
     );
   }
@@ -46,7 +48,7 @@ class SearchRouteDelegate extends SearchDelegate {
             style: TextStyle(color: Colors.black),
           ),
           onTap: () {
-            close(context, null);
+            // close(context, null);
           },
         ),
       ],
