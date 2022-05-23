@@ -5,6 +5,9 @@ class BusRoutes {
   static final Map<String, Set<Polyline>> _routes = {
     '1': ruta1,
     '2': ruta2,
+    '5': ruta5,
+    '8': ruta8,
+    '10': ruta10,
   };
 
   static Set<Polyline> getAllPolylines() {
