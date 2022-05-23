@@ -4,12 +4,15 @@ import 'package:micros_user_app/data/routes/polylines/polylines.dart';
 class BusRoutes {
   static final Map<String, Set<Polyline>> routes = {
     '1': ruta1,
-    '12': ruta2,
-    '121': ruta2,
-    '21': ruta2,
     '2': ruta2,
-    '3119': ruta2,
-    '11': ruta2,
+    '5': ruta5,
+    '8': ruta8,
+    '9': ruta9,
+    '10': ruta10,
+    '11': ruta11,
+    '16': ruta16,
+    '17': ruta17,
+    '18': ruta18,
   };
 
   static Map<String, Set<Polyline>> searchWhereLike(String query) {
