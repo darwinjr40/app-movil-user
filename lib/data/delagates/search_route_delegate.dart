@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:micros_user_app/data/models/models.dart';
+import 'package:micros_user_app/data/routes/routes.dart';
 
 class SearchRouteDelegate extends SearchDelegate<SearResult> {
   SearchRouteDelegate()
       : super(
           searchFieldLabel: 'Buscar...',
+          keyboardType: TextInputType.number,
         );
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -31,27 +34,30 @@ class SearchRouteDelegate extends SearchDelegate<SearResult> {
 
   @override
   Widget buildResults(BuildContext context) {
+    final result = BusRoutes.searchWhereLike(query);
+    print('test ${result}');
     return const Text('buildResults');
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return ListView(
-      children: [
-        ListTile(
-          leading: const Icon(
-            Icons.location_on_outlined,
-            color: Colors.black,
-          ),
-          title: const Text(
-            'Colocar la linea manualmente',
-            style: TextStyle(color: Colors.black),
-          ),
-          onTap: () {
-            // close(context, null);
-          },
+    final busRoutes = BusRoutes.routes;
+    return ListView.separated(
+      itemBuilder: (context, i) => ListTile(
+        title: Text(
+          'Linea ${busRoutes.keys.elementAt(i)}',
+          style: const TextStyle(color: Colors.black),
         ),
-      ],
+        leading: const FaIcon(
+          FontAwesomeIcons.bus,
+          color: Colors.black,
+        ),
+        onTap: () {
+          //TODO: algo
+        },
+      ),
+      separatorBuilder: (_, __) => const Divider(),
+      itemCount: busRoutes.length,
     );
   }
 }

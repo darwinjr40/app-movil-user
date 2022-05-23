@@ -2,15 +2,30 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:micros_user_app/data/routes/polylines/polylines.dart';
 
 class BusRoutes {
-  static final Map<String, Set<Polyline>> _routes = {
+  static final Map<String, Set<Polyline>> routes = {
     '1': ruta1,
+    '12': ruta2,
+    '121': ruta2,
+    '21': ruta2,
     '2': ruta2,
+    '3119': ruta2,
+    '11': ruta2,
   };
+
+  static Map<String, Set<Polyline>> searchWhereLike(String query) {
+    Map<String, Set<Polyline>> result = {};
+    routes.forEach((key, value) {
+      if (key.contains(query)) {
+        result.addAll({key: value});
+      }
+    });
+    return result;
+  }
 
   static Set<Polyline> getAllPolylines() {
     Set<Polyline> allRoutes = {};
 
-    _routes.forEach((key, value) {
+    routes.forEach((key, value) {
       allRoutes.add(value.elementAt(0));
       allRoutes.add(value.elementAt(1));
     });
@@ -18,14 +33,10 @@ class BusRoutes {
     return allRoutes;
   }
 
-  static Set<Polyline> getPolylinesByBus(String name) {
-    return _routes[name]!;
-  }
-
   static Set<Polyline> getPolylinesFromList(List<String> names) {
     Set<Polyline> allRoutes = {};
 
-    _routes.forEach((key, value) {
+    routes.forEach((key, value) {
       if (names.contains(key)) {
         allRoutes.add(value.elementAt(0));
         allRoutes.add(value.elementAt(1));
