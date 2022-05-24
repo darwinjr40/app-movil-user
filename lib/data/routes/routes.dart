@@ -2,6 +2,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:micros_user_app/data/routes/polylines/polylines.dart';
 
 class BusRoutes {
+  // * Este es el principal donde estan guardadas las rutas
   static final Map<String, Set<Polyline>> routes = {
     '1': ruta1,
     '2': ruta2,
@@ -96,5 +97,4 @@ class BusRoutes {
     }
     return reverseResult;
   }
-
 }
