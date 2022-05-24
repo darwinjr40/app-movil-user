@@ -42,15 +42,12 @@ class _BtnIntersectionBody extends StatelessWidget {
             // ! Instancias de los gestores de estado
             final searchBloc = BlocProvider.of<SearchBloc>(context);
             searchBloc.add(OnActivateLegendEvent());
-
-            final locationBloc = BlocProvider.of<LocationBloc>(context);
             final mapBloc = BlocProvider.of<MapBloc>(context);
             //* puntoactual tiene la ubicacion del usuario en el momento que apretaron el boton
-            final puntoActual = locationBloc.state.lastKnownLocation!;
+            final myRange = mapBloc.state.circles.first;
             //! aqui es donde llama a tu metodo y se supone que me devuelve las lineas correctas
             //* por ahora lo que hace es devolverme todas
-            final intersectedPolylines =
-                BusRoutes.getIntersectedLines(puntoActual);
+            final intersectedPolylines = BusRoutes.getIntersectedLines(myRange);
 
             // * Esta cosa lo que hace es actualizar las polylines del mapa para que las dibuje
             mapBloc.add(UpdatePolylinesEvent(intersectedPolylines));

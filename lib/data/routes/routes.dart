@@ -33,16 +33,20 @@ class BusRoutes {
   //! Aqui va ir el metodo del chispin
   //TODO: cambiar el codigo que puse en getIntersectedLines con el verdadro
 
-  static Set<Polyline> getIntersectedLines(LatLng centro) {
+  static Set<Polyline> getIntersectedLines(Circle range) {
     //! cambiar esto por un codigo que intersecte las rutas con un rango
     //* Ahorita lo unico que hace es devolver todas las polylines
+
+    // ? te dejo un ejemplo de como sacar el centro y el radio
+    final radio = range.radius;
+    final center = range.center;
+
     Set<Polyline> allRoutes = {};
 
     routes.forEach((key, value) {
       allRoutes.add(value.elementAt(0));
       allRoutes.add(value.elementAt(1));
     });
-
 
     //? si queres cambia los parametros, vos ves que hace falta la cosa es
     //? que este metodo tiene que de devolver el Set
