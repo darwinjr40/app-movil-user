@@ -34,7 +34,7 @@ class BusRoutes {
   // lineX lineY => coordenadas del micro
   // radius => constante que es radio de la circunferencia limite
   static bool isInsideRadius(double currentX, double currentY, double lineX, double lineY){
-    const double radius = 0.0023151623334957305;
+    const double radius = 0.002355222456223941;
     double d = sqrt(pow((lineX.abs() - currentX.abs()),2) + pow((lineY.abs() - currentY.abs()),2));
     return (d <= radius);
   }
