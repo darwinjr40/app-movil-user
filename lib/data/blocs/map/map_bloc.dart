@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:micros_user_app/data/blocs/blocs.dart';
 import 'package:micros_user_app/presentation/themes/themes.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -25,7 +26,18 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<UpdatePolylinesEvent>(
         (event, emit) => emit(state.copyWith(polylines: event.queryPolylines)));
 
+    on<OnActivateShowRange>(
+        (event, emit) => emit(state.copyWith(showMyRange: true)));
+
+    on<OnDeactivateShowRange>(
+        (event, emit) => emit(state.copyWith(showMyRange: false)));
+
+    on<UpdateCirclesEvent>(_onCircleUpdate);
+
     locationStateSubscription = locationBloc.stream.listen((locationState) {
+      if (locationState.lastKnownLocation != null) {
+        add(UpdateCirclesEvent(locationState.lastKnownLocation!));
+      }
       if (!state.isFollowingUser) return;
       if (locationState.lastKnownLocation == null) return;
       moveCamera(locationState.lastKnownLocation!);
@@ -46,6 +58,21 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     if (locationBloc.state.lastKnownLocation == null) return;
 
     moveCamera(locationBloc.state.lastKnownLocation!);
+  }
+
+  void _onCircleUpdate(UpdateCirclesEvent event, Emitter<MapState> emit) {
+    final myRange = Circle(
+      circleId: const CircleId('myRange'),
+      center: event.userlocation,
+      radius: 250,
+      fillColor: const Color.fromARGB(118, 50, 147, 225),
+      strokeColor: Colors.blue,
+      strokeWidth: 3,
+    );
+
+    final myCircles = {myRange};
+
+    emit(state.copyWith(circles: myCircles));
   }
 
   void moveCamera(LatLng newLocation) {

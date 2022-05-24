@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../coordenadas/rutas.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-
 final Set<Polyline> ruta1 = {
   const Polyline(
     polylineId: PolylineId('LN1I'),
@@ -21,6 +20,3 @@ final Set<Polyline> ruta1 = {
     points: ruta1Vuelta,
   ),
 };
-
-
-

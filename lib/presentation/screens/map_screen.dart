@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:micros_user_app/data/blocs/blocs.dart';
 import 'package:micros_user_app/presentation/views/views.dart';
+import 'package:micros_user_app/presentation/widgets/btn_show_range.dart';
 import 'package:micros_user_app/presentation/widgets/widgets.dart';
 
 class MapScreen extends StatefulWidget {
@@ -41,12 +43,18 @@ class _MapScreenState extends State<MapScreen> {
           }
           return BlocBuilder<MapBloc, MapState>(
             builder: (context, mapState) {
+              final circles = Set<Circle>.from(mapState.circles);
+              if (!mapState.showMyRange) {
+                circles.removeWhere(
+                    (element) => element.circleId.value == 'myRange');
+              }
               return SingleChildScrollView(
                 child: Stack(
                   children: [
                     MapView(
                       initialLocation: locationState.lastKnownLocation!,
                       polylines: mapState.polylines,
+                      circles: circles,
                     ),
                     const CustomSearchBar(),
                     const LegendListView(),
@@ -62,6 +70,7 @@ class _MapScreenState extends State<MapScreen> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: const [
           BtnIntersection(),
+          BtnShowRange(),
           BtnFollowUser(),
           BtnCurrentLocation(),
         ],

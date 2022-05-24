@@ -17,8 +17,18 @@ class OnStopFollowingUserMap extends MapEvent {}
 
 class OnStartFollowingUserMap extends MapEvent {}
 
+class OnActivateShowRange extends MapEvent {}
+
+class OnDeactivateShowRange extends MapEvent {}
+
 class UpdatePolylinesEvent extends MapEvent {
   final Set<Polyline> queryPolylines;
 
   const UpdatePolylinesEvent(this.queryPolylines);
+}
+
+class UpdateCirclesEvent extends MapEvent {
+  final LatLng userlocation;
+
+  const UpdateCirclesEvent(this.userlocation);
 }
