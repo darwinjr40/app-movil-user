@@ -5,7 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 final Set<Polyline> ruta18 = {
   const Polyline(
     polylineId: PolylineId('LN18I'),
-    color: Colors.yellow,
+    color: Colors.cyanAccent,
     width: 3,
     startCap: Cap.roundCap,
     endCap: Cap.roundCap,
@@ -13,7 +13,7 @@ final Set<Polyline> ruta18 = {
   ),
   const Polyline(
     polylineId: PolylineId('LN18V'),
-    color: Colors.yellow,
+    color: Colors.cyanAccent,
     width: 3,
     startCap: Cap.roundCap,
     endCap: Cap.roundCap,
