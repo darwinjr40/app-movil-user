@@ -22,6 +22,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<OnStopFollowingUserMap>(
         (event, emit) => emit(state.copyWith(isFollowingUser: false)));
 
+    on<UpdatePolylinesEvent>(
+        (event, emit) => emit(state.copyWith(polylines: event.queryPolylines)));
+
     locationStateSubscription = locationBloc.stream.listen((locationState) {
       if (!state.isFollowingUser) return;
       if (locationState.lastKnownLocation == null) return;

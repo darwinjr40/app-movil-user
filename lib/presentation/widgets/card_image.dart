@@ -34,13 +34,13 @@ class _BackGroundImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
-      child: Container(
+      child: const SizedBox(
         width: double.infinity,
         height: 150,
         // decoration: const BoxDecoration(
         //   color: Colors.transparent,
         // ),
-        child: const FadeInImage(
+        child: FadeInImage(
           placeholder: AssetImage('assets/jar-loading.gif'),
           image: AssetImage('assets/micro.png'),
           fit: BoxFit.cover,

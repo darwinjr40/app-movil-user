@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:micros_user_app/data/blocs/blocs.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:micros_user_app/presentation/views/views.dart';
 import 'package:micros_user_app/presentation/widgets/widgets.dart';
 
@@ -42,15 +41,15 @@ class _MapScreenState extends State<MapScreen> {
           }
           return BlocBuilder<MapBloc, MapState>(
             builder: (context, mapState) {
-              Map<String, Polyline> polylines = {};
               return SingleChildScrollView(
                 child: Stack(
                   children: [
                     MapView(
                       initialLocation: locationState.lastKnownLocation!,
-                      polylines: polylines.values.toSet(),
+                      polylines: mapState.polylines,
                     ),
                     const CustomSearchBar(),
+                    const LegendListView(),
                   ],
                 ),
               );

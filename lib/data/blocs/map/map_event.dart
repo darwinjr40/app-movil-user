@@ -16,3 +16,9 @@ class OnMapInitializedEvent extends MapEvent {
 class OnStopFollowingUserMap extends MapEvent {}
 
 class OnStartFollowingUserMap extends MapEvent {}
+
+class UpdatePolylinesEvent extends MapEvent {
+  final Set<Polyline> queryPolylines;
+
+  const UpdatePolylinesEvent(this.queryPolylines);
+}

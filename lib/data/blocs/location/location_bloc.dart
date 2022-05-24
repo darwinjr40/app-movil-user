@@ -25,7 +25,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }
 
   Future getCurrentPosition() async {
-    final position = await Geolocator.getCurrentPosition();
+    // final position = await Geolocator.getCurrentPosition();
   }
 
   void startFollowingUser() {

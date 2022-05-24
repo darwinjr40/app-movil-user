@@ -35,8 +35,34 @@ class SearchRouteDelegate extends SearchDelegate<SearResult> {
   @override
   Widget buildResults(BuildContext context) {
     final result = BusRoutes.searchWhereLike(query);
-    print('test ${result}');
-    return const Text('buildResults');
+    return result.isNotEmpty
+        ? ListView.separated(
+            itemBuilder: (context, i) => ListTile(
+              title: Text(
+                'Linea ${result.keys.elementAt(i)}',
+                style: const TextStyle(color: Colors.black),
+              ),
+              leading: const FaIcon(
+                FontAwesomeIcons.bus,
+                color: Colors.black,
+              ),
+              onTap: () {
+                final res = SearResult(
+                  cancel: false,
+                  resultPolylines: result.values.elementAt(i),
+                );
+                close(context, res);
+              },
+            ),
+            separatorBuilder: (_, __) => const Divider(),
+            itemCount: result.length,
+          )
+        : const Center(
+            child: Text(
+              'No se encontraron resultados, intenta con otro numero',
+              style: TextStyle(color: Colors.black87),
+            ),
+          );
   }
 
   @override
@@ -53,7 +79,11 @@ class SearchRouteDelegate extends SearchDelegate<SearResult> {
           color: Colors.black,
         ),
         onTap: () {
-          //TODO: algo
+          final res = SearResult(
+            cancel: false,
+            resultPolylines: busRoutes.values.elementAt(i),
+          );
+          close(context, res);
         },
       ),
       separatorBuilder: (_, __) => const Divider(),

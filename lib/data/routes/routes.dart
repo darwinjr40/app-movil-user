@@ -17,8 +17,12 @@ class BusRoutes {
 
   static Map<String, Set<Polyline>> searchWhereLike(String query) {
     Map<String, Set<Polyline>> result = {};
+    if (routes.containsKey(query)) {
+      result.addAll({query: routes[query]!});
+      return result;
+    }
     routes.forEach((key, value) {
-      if (key.contains(query)) {
+      if (key.contains(query) || query.contains(key)) {
         result.addAll({key: value});
       }
     });
@@ -52,11 +56,45 @@ class BusRoutes {
   static Set<Polyline> getEspecifiedPolylines(List<String> idList) {
     Set<Polyline> allRoutes = getAllPolylines();
     Set<Polyline> result = {};
-    allRoutes.forEach((element) {
+    for (var element in allRoutes) {
       if (idList.contains(element.mapsId.value)) {
         result.add(element);
       }
-    });
+    }
     return result;
   }
+
+  static String getKeyFromPolyline(Polyline poly) {
+    String res = "";
+    routes.forEach((key, value) {
+      if (value.contains(poly)) {
+        res = key;
+      }
+    });
+    return res;
+  }
+
+  static Map<String, Set<Polyline>> getMapFromSet(Set<Polyline> list) {
+    Map<String, Set<Polyline>> result = {};
+
+    routes.forEach((key, value) {
+      final Set<Polyline> aux = {};
+      for (var element in list) {
+        if (value.contains(element)) {
+          aux.add(element);
+        }
+      }
+      if (aux.isNotEmpty) {
+        result.addAll({key: aux});
+      }
+    });
+    Map<String, Set<Polyline>> reverseResult = {};
+    for (int i = result.length - 1; i >= 0; i--) {
+      final key = result.keys.elementAt(i);
+      final value = result.values.elementAt(i);
+      reverseResult.addAll({key: value});
+    }
+    return reverseResult;
+  }
+
 }
