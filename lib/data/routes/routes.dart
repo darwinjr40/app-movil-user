@@ -1,6 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:micros_user_app/data/routes/polylines/polylines.dart';
-
+import 'dart:math';
 class BusRoutes {
   // * Este es el principal donde estan guardadas las rutas
   static final Map<String, Set<Polyline>> routes = {
@@ -30,26 +30,33 @@ class BusRoutes {
     return result;
   }
 
-  //! Aqui va ir el metodo del chispin
+  // currentX currentY => coordenadas actuales del usuario
+  // lineX lineY => coordenadas del micro
+  // radius => constante que es radio de la circunferencia limite
+  static bool isInsideRadius(double currentX, double currentY, double lineX, double lineY){
+    const double radius = 0.0023151623334957305;
+    double d = sqrt(pow((lineX.abs() - currentX.abs()),2) + pow((lineY.abs() - currentY.abs()),2));
+    return (d <= radius);
+  }
+
   //TODO: cambiar el codigo que puse en getIntersectedLines con el verdadro
 
   static Set<Polyline> getIntersectedLines(Circle range) {
-    //! cambiar esto por un codigo que intersecte las rutas con un rango
-    //* Ahorita lo unico que hace es devolver todas las polylines
-
-    // ? te dejo un ejemplo de como sacar el centro y el radio
-    final radio = range.radius;
-    final center = range.center;
-
+    // final radio = range.radius;
+    // final center = range.center;
     Set<Polyline> allRoutes = {};
-
     routes.forEach((key, value) {
-      allRoutes.add(value.elementAt(0));
-      allRoutes.add(value.elementAt(1));
+      value.elementAt(0).points.forEach((element) {
+        if(isInsideRadius(range.center.longitude, range.center.latitude,element.longitude,element.latitude)){
+          allRoutes.add(value.elementAt(0));
+        }
+      });
+      value.elementAt(1).points.forEach((element) {
+        if(isInsideRadius(range.center.longitude, range.center.latitude,element.longitude,element.latitude)){
+          allRoutes.add(value.elementAt(1));
+        }
+      });
     });
-
-    //? si queres cambia los parametros, vos ves que hace falta la cosa es
-    //? que este metodo tiene que de devolver el Set
     return allRoutes;
   }
 
