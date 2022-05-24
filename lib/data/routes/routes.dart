@@ -30,6 +30,25 @@ class BusRoutes {
     return result;
   }
 
+  //! Aqui va ir el metodo del chispin
+  //TODO: cambiar el codigo que puse en getIntersectedLines con el verdadro
+
+  static Set<Polyline> getIntersectedLines(LatLng centro) {
+    //! cambiar esto por un codigo que intersecte las rutas con un rango
+    //* Ahorita lo unico que hace es devolver todas las polylines
+    Set<Polyline> allRoutes = {};
+
+    routes.forEach((key, value) {
+      allRoutes.add(value.elementAt(0));
+      allRoutes.add(value.elementAt(1));
+    });
+
+
+    //? si queres cambia los parametros, vos ves que hace falta la cosa es
+    //? que este metodo tiene que de devolver el Set
+    return allRoutes;
+  }
+
   static Set<Polyline> getAllPolylines() {
     Set<Polyline> allRoutes = {};
 

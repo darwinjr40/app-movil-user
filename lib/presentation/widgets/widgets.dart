@@ -5,3 +5,4 @@ export 'package:micros_user_app/presentation/widgets/btn_location.dart';
 export 'package:micros_user_app/presentation/widgets/btn_follow_user.dart';
 export 'package:micros_user_app/presentation/widgets/custom_search_bar.dart';
 export 'package:micros_user_app/presentation/widgets/legend_listview.dart';
+export 'package:micros_user_app/presentation/widgets/btn_intersection.dart';
