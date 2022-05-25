@@ -66,7 +66,7 @@ class _MapLegend extends StatelessWidget {
         children: [
           Icon(
             Icons.circle,
-            color: busRoutes.values.elementAt(i).first.color,
+            color: busRoutes.values.elementAt(i).last.color,
             size: 15,
           ),
           const SizedBox(width: 10),

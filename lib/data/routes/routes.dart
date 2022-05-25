@@ -1,6 +1,7 @@
+import 'dart:math';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:micros_user_app/data/routes/polylines/polylines.dart';
-import 'dart:math';
+
 class BusRoutes {
   // * Este es el principal donde estan guardadas las rutas
   static final Map<String, Set<Polyline>> routes = {
@@ -33,26 +34,26 @@ class BusRoutes {
   // currentX currentY => coordenadas actuales del usuario
   // lineX lineY => coordenadas del micro
   // radius => constante que es radio de la circunferencia limite
-  static bool isInsideRadius(double currentX, double currentY, double lineX, double lineY){
+  static bool isInsideRadius(
+      double currentX, double currentY, double lineX, double lineY) {
     const double radius = 0.002355222456223941;
-    double d = sqrt(pow((lineX.abs() - currentX.abs()),2) + pow((lineY.abs() - currentY.abs()),2));
+    double d = sqrt(pow((lineX.abs() - currentX.abs()), 2) +
+        pow((lineY.abs() - currentY.abs()), 2));
     return (d <= radius);
   }
 
-  //TODO: cambiar el codigo que puse en getIntersectedLines con el verdadro
-
   static Set<Polyline> getIntersectedLines(Circle range) {
-    // final radio = range.radius;
-    // final center = range.center;
     Set<Polyline> allRoutes = {};
     routes.forEach((key, value) {
       value.elementAt(0).points.forEach((element) {
-        if(isInsideRadius(range.center.longitude, range.center.latitude,element.longitude,element.latitude)){
+        if (isInsideRadius(range.center.longitude, range.center.latitude,
+            element.longitude, element.latitude)) {
           allRoutes.add(value.elementAt(0));
         }
       });
       value.elementAt(1).points.forEach((element) {
-        if(isInsideRadius(range.center.longitude, range.center.latitude,element.longitude,element.latitude)){
+        if (isInsideRadius(range.center.longitude, range.center.latitude,
+            element.longitude, element.latitude)) {
           allRoutes.add(value.elementAt(1));
         }
       });

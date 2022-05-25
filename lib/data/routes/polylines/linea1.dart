@@ -3,9 +3,9 @@ import '../coordenadas/rutas.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 final Set<Polyline> ruta1 = {
-  const Polyline(
-    polylineId: PolylineId('LN1I'),
-    color: Colors.red,
+  Polyline(
+    polylineId: const PolylineId('LN1I'),
+    color: Colors.red.withOpacity(0.7),
     width: 3,
     startCap: Cap.roundCap,
     endCap: Cap.roundCap,
