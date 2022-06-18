@@ -14,7 +14,7 @@ class NotificationsService {
             color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
       ),
     );
-
+    
     messengerKey.currentState!.showSnackBar(snackBar);
   }
 }
