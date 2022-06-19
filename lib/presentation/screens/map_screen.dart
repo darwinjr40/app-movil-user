@@ -35,7 +35,8 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    BusService().loadBus();
+    BlocProvider.of<BusBloc>(context); //add
+     
     return Scaffold(
       body: BlocBuilder<LocationBloc, LocationState>(
         builder: (context, locationState) {

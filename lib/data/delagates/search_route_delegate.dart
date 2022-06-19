@@ -69,33 +69,30 @@ class SearchRouteDelegate extends SearchDelegate<SearResult> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // final busesBloc = BlocProvider.of<BusBloc>(context);
-    // busesBloc.add(ChangeUserAge);
-    
-    // BlocBuilder<BusBloc, BusState>(builder: (context, state) { return ListView(children: [ const Text('')],);},) 
+    BlocProvider.of<BusBloc>(context); //add
     // state.routes.keys.elementAt(1);
-
-    final busRoutes = BusRoutes.routes;
-    return ListView.separated(
-      itemBuilder: (context, i) => ListTile(
-        title: Text(
-          'Linea ${busRoutes.keys.elementAt(i)}',
-          style: const TextStyle(color: Colors.black),
+    return BlocBuilder<BusBloc, BusState>(builder: (context, state) {
+      return ListView.separated(
+        itemBuilder: (context, i) => ListTile(
+          title: Text(
+            'Linea ${state.routes.keys.elementAt(i)}',
+            style: const TextStyle(color: Colors.black),
+          ),
+          leading: const FaIcon(
+            FontAwesomeIcons.bus,
+            color: Colors.black,
+          ),
+          onTap: () {
+            final res = SearResult(
+              cancel: false,
+              resultPolylines: state.routes.values.elementAt(i),
+            );
+            close(context, res);
+          },
         ),
-        leading: const FaIcon(
-          FontAwesomeIcons.bus,
-          color: Colors.black,
-        ),
-        onTap: () {
-          final res = SearResult(
-            cancel: false,
-            resultPolylines: busRoutes.values.elementAt(i),
-          );
-          close(context, res);
-        },
-      ),
-      separatorBuilder: (_, __) => const Divider(),
-      itemCount: busRoutes.length,
-    );
+        separatorBuilder: (_, __) => const Divider(),
+        itemCount: state.routes.length,
+      );
+    });
   }
 }

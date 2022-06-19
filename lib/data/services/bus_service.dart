@@ -39,7 +39,7 @@ class BusService {
       }
       lineaRutaVuelta = Polyline(
         polylineId: const PolylineId('lnVuelta'),
-        color: Colors.red.withOpacity(0.7),
+        color: Colors.red,
         width: 3,
         startCap: Cap.roundCap,
         endCap: Cap.roundCap,
@@ -48,11 +48,11 @@ class BusService {
       linea.add(lineaRutaIda);
       linea.add(lineaRutaVuelta);
       String a = item["bus"]["id"].toString();
-      print(a);
+      // print(a);
       routes.addAll({a: linea});
     }
-    print(routes);
-    print("arriba");
+    // print(routes);
+    print("arriba----------------------------------------------");
     return routes;
   }
 }
