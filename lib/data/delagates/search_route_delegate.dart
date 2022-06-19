@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:micros_user_app/data/blocs/blocs.dart';
 import 'package:micros_user_app/data/models/models.dart';
 import 'package:micros_user_app/data/routes/routes.dart';
 
@@ -67,6 +69,12 @@ class SearchRouteDelegate extends SearchDelegate<SearResult> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    // final busesBloc = BlocProvider.of<BusBloc>(context);
+    // busesBloc.add(ChangeUserAge);
+    
+    // BlocBuilder<BusBloc, BusState>(builder: (context, state) { return ListView(children: [ const Text('')],);},) 
+    // state.routes.keys.elementAt(1);
+
     final busRoutes = BusRoutes.routes;
     return ListView.separated(
       itemBuilder: (context, i) => ListTile(
