@@ -8,13 +8,13 @@ abstract class BusEvent extends Equatable {
 }
 
 class OnBusInitializedEvent extends BusEvent {
-  final Map<String, Set<Polyline>> routes;
+  final Map<String, Set<Polyline>> newRoutes;
 
-  const OnBusInitializedEvent({required this.routes});
+  const OnBusInitializedEvent({required this.newRoutes});
 }
 
-class UpdateRoutesEvent extends BusEvent {
+class OnUpdateRoutesEvent extends BusEvent {
   final Map<String, Set<Polyline>> auxRoutes;
 
-  const UpdateRoutesEvent(this.auxRoutes);
+  const OnUpdateRoutesEvent(this.auxRoutes);
 }

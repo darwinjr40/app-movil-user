@@ -13,7 +13,8 @@ class BusBloc extends Bloc<BusEvent, BusState> {
 
   BusBloc({required this.busService}) : super(const BusState(routes: {})) {
     on<OnBusInitializedEvent>(
-        (event, emit) => emit(state.copyWith(routes: event.routes)));
+        (event, emit) => emit(state.copyWith(routes: event.newRoutes)));
+    on<OnUpdateRoutesEvent>((event, emit) => _onUpdateRoutes);
 
     _init();
   }
@@ -25,7 +26,15 @@ class BusBloc extends Bloc<BusEvent, BusState> {
     }
     // print(varRoutes);
     emit(state.copyWith(routes: varRoutes));
-    // add(UpdateRoutesEvent(varRoutes));
+    // add(OnUpdateRoutesEvent(varRoutes));
+  }
+
+  _onUpdateRoutes(OnUpdateRoutesEvent event, Emitter<BusState> emit) async {
+    final newRoutes = await BusService().loadBus();
+    if (newRoutes == null) {
+      return;
+    }
+    emit(state.copyWith(routes: newRoutes));
   }
 
   Map<String, Set<Polyline>> searchWhereLike(String query) {
