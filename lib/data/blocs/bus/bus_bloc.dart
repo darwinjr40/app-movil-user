@@ -21,7 +21,6 @@ class BusBloc extends Bloc<BusEvent, BusState> {
   void _init() async {
     final varRoutes = await BusService().loadBus();
     if (varRoutes == null) {
-      print('null--------------------');
       return;
     }
     // print(varRoutes);
@@ -57,7 +56,6 @@ class BusBloc extends Bloc<BusEvent, BusState> {
 
   Set<Polyline> getIntersectedLines(Circle range) {
     Map<String, Set<Polyline>> routes = state.routes;
-    print('getIntersectedLines' + routes.length.toString());
     Set<Polyline> allRoutes = {};
     routes.forEach((key, value) {
       value.elementAt(0).points.forEach((element) {
@@ -122,7 +120,7 @@ class BusBloc extends Bloc<BusEvent, BusState> {
   }
 
   Map<String, Set<Polyline>> getMapFromSet(Set<Polyline> list) {
-    Map<String, Set<Polyline>> routes = state.routes;
+    // Map<String, Set<Polyline>> routes = state.routes;
     Map<String, Set<Polyline>> result = {};
 
     state.routes.forEach((key, value) {

@@ -3,7 +3,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:micros_user_app/data/blocs/blocs.dart';
-import 'package:micros_user_app/data/routes/routes.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class LegendListView extends StatelessWidget {
@@ -59,7 +58,8 @@ class _MapLegend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mapBloc = BlocProvider.of<MapBloc>(context);
-    final busRoutes = BusRoutes.getMapFromSet(mapBloc.state.polylines);
+    // final busRoutes = BusRoutes.getMapFromSet(mapBloc.state.polylines);
+    final busRoutes = BlocProvider.of<BusBloc>(context).getMapFromSet(mapBloc.state.polylines);
     return ListView.separated(
       reverse: true,
       itemBuilder: (context, i) => Row(

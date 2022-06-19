@@ -69,30 +69,29 @@ class SearchRouteDelegate extends SearchDelegate<SearResult> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-     final busService =  BlocProvider.of<BusBloc>(context); 
-    // state.routes.keys.elementAt(1);
-    // return BlocBuilder<BusBloc, BusState>(builder: (context, state) {
-      return ListView.separated(
-        itemBuilder: (context, i) => ListTile(
-          title: Text(
-            'Linea ${busService.state.routes.keys.elementAt(i)}',
-            style: const TextStyle(color: Colors.black),
-          ),
-          leading: const FaIcon(
-            FontAwesomeIcons.bus,
-            color: Colors.black,
-          ),
-          onTap: () {
-            final res = SearResult(
-              cancel: false,
-              resultPolylines: busService.state.routes.values.elementAt(i),
-            );
-            close(context, res);
-          },
+    final busRoutes = BlocProvider.of<BusBloc>(context).state.routes;
+    //  final busRoutes = BusRoutes.routes;
+    // return BlocBuilder<BusBloc, BusState>(builder: (context, state) {});
+    return ListView.separated(
+      itemBuilder: (context, i) => ListTile(
+        title: Text(
+          'Linea ${busRoutes.keys.elementAt(i)}',
+          style: const TextStyle(color: Colors.black),
         ),
-        separatorBuilder: (_, __) => const Divider(),
-        itemCount: busService.state.routes.length,
-      );
-    // });
+        leading: const FaIcon(
+          FontAwesomeIcons.bus,
+          color: Colors.black,
+        ),
+        onTap: () {
+          final res = SearResult(
+            cancel: false,
+            resultPolylines: busRoutes.values.elementAt(i),
+          );
+          close(context, res);
+        },
+      ),
+      separatorBuilder: (_, __) => const Divider(),
+      itemCount: busRoutes.length,
+    );
   }
 }

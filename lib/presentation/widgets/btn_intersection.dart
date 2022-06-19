@@ -2,7 +2,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:micros_user_app/data/blocs/blocs.dart';
-import 'package:micros_user_app/data/routes/routes.dart';
 
 class BtnIntersection extends StatelessWidget {
   const BtnIntersection({Key? key}) : super(key: key);
@@ -51,10 +50,6 @@ class _BtnIntersectionBody extends StatelessWidget {
             // final intersectedPolylines = BusRoutes.getIntersectedLines(myRange);
             final intersectedPolylines =
                 busService.getIntersectedLines(myRange);
-            print('-------------------------------------------------');
-            print(intersectedPolylines);
-            print(intersectedPolylines.length);
-
             // * Esta cosa lo que hace es actualizar las polylines del mapa para que las dibuje
             mapBloc.add(UpdatePolylinesEvent(intersectedPolylines));
           },

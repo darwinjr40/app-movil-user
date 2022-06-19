@@ -7,7 +7,6 @@ import 'package:micros_user_app/presentation/views/views.dart';
 import 'package:micros_user_app/presentation/widgets/btn_show_range.dart';
 import 'package:micros_user_app/presentation/widgets/widgets.dart';
 
-import '../../data/services/services.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
