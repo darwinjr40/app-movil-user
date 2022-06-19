@@ -20,12 +20,13 @@ class BusService {
       linea = {};
       List<LatLng> rutaIda = [];
       List<LatLng> rutaVuelta = [];
+      String a = item["bus"]["id"].toString();
       for (var ida in item["paths"]["ida"]) {
         rutaIda.add(LatLng(
             double.parse(ida["latitude"]), double.parse(ida["longitude"])));
       }
       lineaRutaIda = Polyline(
-        polylineId: const PolylineId('lnIda'),
+        polylineId: PolylineId('ln' + a + 'Ida'),
         color: Colors.red.withOpacity(0.7),
         width: 3,
         startCap: Cap.roundCap,
@@ -38,7 +39,7 @@ class BusService {
             double.parse(vuelta["longitude"])));
       }
       lineaRutaVuelta = Polyline(
-        polylineId: const PolylineId('lnVuelta'),
+        polylineId: PolylineId('ln' + a + 'Vuelta'),
         color: Colors.red,
         width: 3,
         startCap: Cap.roundCap,
@@ -47,7 +48,6 @@ class BusService {
       );
       linea.add(lineaRutaIda);
       linea.add(lineaRutaVuelta);
-      String a = item["bus"]["id"].toString();
       // print(a);
       routes.addAll({a: linea});
     }
