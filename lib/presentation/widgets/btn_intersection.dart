@@ -47,7 +47,13 @@ class _BtnIntersectionBody extends StatelessWidget {
             final myRange = mapBloc.state.circles.first;
             //! aqui es donde llama a tu metodo y se supone que me devuelve las lineas correctas
             //* por ahora lo que hace es devolverme todas
-            final intersectedPolylines = BusRoutes.getIntersectedLines(myRange);
+            final busService = BlocProvider.of<BusBloc>(context);
+            // final intersectedPolylines = BusRoutes.getIntersectedLines(myRange);
+            final intersectedPolylines =
+                busService.getIntersectedLines(myRange);
+            print('-------------------------------------------------');
+            print(intersectedPolylines);
+            print(intersectedPolylines.length);
 
             // * Esta cosa lo que hace es actualizar las polylines del mapa para que las dibuje
             mapBloc.add(UpdatePolylinesEvent(intersectedPolylines));
