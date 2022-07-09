@@ -38,29 +38,9 @@ class SearchRouteDelegate extends SearchDelegate<SearResult> {
 
   @override
   Widget buildResults(BuildContext context) {
-    final result = BusRoutes.searchWhereLike(query);
-    return result.isNotEmpty
-        ? ListView.separated(
-            itemBuilder: (context, i) => ListTile(
-              title: Text(
-                'Linea ${result.keys.elementAt(i)}',
-                style: const TextStyle(color: Colors.black),
-              ),
-              leading: const FaIcon(
-                FontAwesomeIcons.bus,
-                color: Colors.black,
-              ),
-              onTap: () {
-                final res = SearResult(
-                  cancel: false,
-                  resultPolylines: result.values.elementAt(i),
-                );
-                close(context, res);
-              },
-            ),
-            separatorBuilder: (_, __) => const Divider(),
-            itemCount: result.length,
-          )
+    final result = BlocProvider.of<BusBloc>(context).searchWhereLike(query);
+    return result.isNotEmpty?
+        getBuildSuggestions2(result)
         : const Center(
             child: Text(
               'No se encontraron resultados, intenta con otro numero',
@@ -115,6 +95,7 @@ class SearchRouteDelegate extends SearchDelegate<SearResult> {
       endActionPane: ActionPane(
         motion: const BehindMotion(),
         children: _getSlidableAction(busRoutes, index),
+        extentRatio: 1,
       ),
       child: ListTile(
         title: Text(
@@ -136,7 +117,7 @@ class SearchRouteDelegate extends SearchDelegate<SearResult> {
   List<Widget> _getSlidableAction(
       Map<String, Set<Polyline>> busRoutes, int index) {
     List<String> options = ['Ida', 'vuelta', 'Ambos'];
-    List<Color> colors = [Colors.grey.withOpacity(0.2), Colors.grey.withOpacity(0.5), Colors.grey.withOpacity(0.8)];
+    List<Color> colors = [Colors.grey.withOpacity(0.6), Colors.grey.withOpacity(0.8), Colors.grey];
     List<IconData> icons = [
       Icons.arrow_upward,
       Icons.arrow_downward,
@@ -147,9 +128,7 @@ class SearchRouteDelegate extends SearchDelegate<SearResult> {
     for (int i = 0; i < options.length; i++) {
       Widget slidableAction = SlidableAction(
           label: options[i],
-          flex: 2,
           backgroundColor: colors[i],
-          foregroundColor: Colors.black,
           icon: icons[i],
           onPressed: (context) {
             //0=ida | 1=vuelta
