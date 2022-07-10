@@ -33,9 +33,9 @@ class BusService {
       linea = {};
       List<LatLng> rutaIda = [];
       List<LatLng> rutaVuelta = [];
-      //numero de linea 
+      //numero de linea
       String a = item["bus"]["id"].toString();
-      //coordenadas de ida lista 
+      //coordenadas de ida lista
       for (var ida in item["paths"]["ida"]) {
         rutaIda.add(LatLng(
             double.parse(ida["latitude"]), double.parse(ida["longitude"])));
@@ -45,8 +45,10 @@ class BusService {
         // color: Colors.red.withOpacity(0.7),
         color: colorLineas[i],
         width: 3,
-        startCap: Cap.roundCap,
-        endCap: Cap.roundCap,
+        startCap: Cap.customCapFromBitmap(BitmapDescriptor.defaultMarkerWithHue(100),
+            refWidth: 10.0),
+        endCap: Cap.customCapFromBitmap(BitmapDescriptor.defaultMarker,
+            refWidth: 10.0),
         points: rutaIda,
       );
       i++;
@@ -71,8 +73,6 @@ class BusService {
       routes.addAll({a: linea});
     }
 
-
-    
     // print(routes);
     // print("arriba----------------------------------------------");
     return routes;
