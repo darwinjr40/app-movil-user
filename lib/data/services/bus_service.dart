@@ -33,7 +33,9 @@ class BusService {
       linea = {};
       List<LatLng> rutaIda = [];
       List<LatLng> rutaVuelta = [];
+      //numero de linea 
       String a = item["bus"]["id"].toString();
+      //coordenadas de ida lista 
       for (var ida in item["paths"]["ida"]) {
         rutaIda.add(LatLng(
             double.parse(ida["latitude"]), double.parse(ida["longitude"])));
@@ -48,6 +50,7 @@ class BusService {
         points: rutaIda,
       );
       i++;
+      //carga de coordenadas
       for (var vuelta in item["paths"]["vuelta"]) {
         rutaVuelta.add(LatLng(double.parse((vuelta["latitude"])),
             double.parse(vuelta["longitude"])));
