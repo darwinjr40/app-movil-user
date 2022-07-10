@@ -49,9 +49,7 @@ class _CustomSearchBarBody extends StatelessWidget {
           onTap: () async {
             final result = await showSearch(
                 context: context, delegate: SearchRouteDelegate());
-            if (result == null) return;
-            if (result.cancel) return;
-            if (result.resultPolylines == null) return;
+            if ((result == null ) || (result.cancel) || (result.resultPolylines == null)) return;
             onSearchResults(context, result);
           },
           child: Container(
