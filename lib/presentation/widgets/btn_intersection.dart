@@ -41,7 +41,7 @@ class _BtnIntersectionBody extends StatelessWidget {
             // ! Instancias de los gestores de estado
             final searchBloc = BlocProvider.of<SearchBloc>(context);
             searchBloc.add(OnActivateLegendEvent());
-                  final mapBloc = BlocProvider.of<MapBloc>(context);
+            final mapBloc = BlocProvider.of<MapBloc>(context);
             //* puntoactual tiene la ubicacion del usuario en el momento que apretaron el boton
             final myRange = mapBloc.state.circles.first;
             //! aqui es donde llama a tu metodo y se supone que me devuelve las lineas correctas

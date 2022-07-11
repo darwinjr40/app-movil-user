@@ -21,9 +21,7 @@ class BusBloc extends Bloc<BusEvent, BusState> {
 
   void _init() async {
     final varRoutes = await BusService().loadBus();
-    if (varRoutes == null) {
-      return;
-    }
+    if (varRoutes == null) return;
     // print(varRoutes);
     emit(state.copyWith(routes: varRoutes));
     // add(OnUpdateRoutesEvent(varRoutes));

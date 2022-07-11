@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:micros_user_app/data/blocs/blocs.dart';
+import 'package:micros_user_app/data/helpers/helpers.dart';
 import 'package:micros_user_app/presentation/themes/themes.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -33,6 +34,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         (event, emit) => emit(state.copyWith(showMyRange: false)));
 
     on<UpdateCirclesEvent>(_onCircleUpdate);
+
+    on<OnUpdateMarkesEvent>(
+        (event, emit) => emit(state.copyWith(markers: event.markersAux)));
 
     locationStateSubscription = locationBloc.stream.listen((locationState) {
       if (locationState.lastKnownLocation != null) {
@@ -70,8 +74,6 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       strokeWidth: 3,
     );
 
-    
-
     final myCircles = {myRange};
 
     emit(state.copyWith(circles: myCircles));
@@ -86,5 +88,39 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   Future<void> close() {
     locationStateSubscription?.cancel();
     return super.close();
+  }
+
+  Future drawRouteMarker(Set<Polyline> polylines) async {
+    Marker starMarker, endMarker;
+    Map<String, Marker> currentMarkers =
+        Map<String, Marker>.from(state.markers);
+    BitmapDescriptor initMarker = await getAssetImageMarker();
+    for (Polyline polyline in polylines) {
+      //Custom markers
+
+      starMarker = Marker(
+        markerId: MarkerId('${polyline.polylineId.value}start'),
+        position: polyline.points.first,
+        icon: initMarker,
+        // infoWindow: const InfoWindow(
+        //   title: 'Inicio',
+        //   snippet: '!Este es el punto de inicio de mi ruta',
+        // ),
+      );
+
+      endMarker = Marker(
+          markerId: MarkerId('${polyline.polylineId.value}end'),
+          position: polyline.points.last,
+          infoWindow: const InfoWindow(
+            title: 'Fin',
+            snippet: '!Este es el punto Final de mi ruta',
+          ));
+      currentMarkers['${polyline.polylineId.value}start'] = starMarker;
+      currentMarkers['${polyline.polylineId.value}end'] = endMarker;
+    }
+    add(OnUpdateMarkesEvent(currentMarkers));
+
+    // await Future.delayed(const Duration(milliseconds: 300));
+    // _mapController?.showMarkerInfoWindow(const MarkerId('start'));
   }
 }

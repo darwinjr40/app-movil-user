@@ -59,7 +59,8 @@ class _MapLegend extends StatelessWidget {
   Widget build(BuildContext context) {
     final mapBloc = BlocProvider.of<MapBloc>(context);
     // final busRoutes = BusRoutes.getMapFromSet(mapBloc.state.polylines);
-    final busRoutes = BlocProvider.of<BusBloc>(context).getMapFromSet(mapBloc.state.polylines);
+    final busRoutes = BlocProvider.of<BusBloc>(context)
+        .getMapFromSet(mapBloc.state.polylines);
     return ListView.separated(
       reverse: true,
       itemBuilder: (context, i) => Row(
@@ -101,6 +102,8 @@ class _BtnBack extends StatelessWidget {
           onPressed: () {
             final Set<Polyline> emptySet = {};
             mapBloc.add(UpdatePolylinesEvent(emptySet));
+            final Map<String, Marker> emptymarkers = {};
+            mapBloc.add(OnUpdateMarkesEvent(emptymarkers));
             searchBloc.add(OnDeactivateLegendEvent());
           },
         ),

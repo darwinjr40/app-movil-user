@@ -28,13 +28,14 @@ class CustomSearchBar extends StatelessWidget {
 class _CustomSearchBarBody extends StatelessWidget {
   const _CustomSearchBarBody({Key? key}) : super(key: key);
 
-  void onSearchResults(BuildContext context, SearResult result) {
+   Future onSearchResults(BuildContext context, SearResult result) async{
     final searchBloc = BlocProvider.of<SearchBloc>(context);
     final mapBloc = BlocProvider.of<MapBloc>(context);
     searchBloc.add(OnActivateLegendEvent());
     final polylines = result.resultPolylines;
     if (polylines!.isNotEmpty) {
       mapBloc.add(UpdatePolylinesEvent(polylines));
+      await mapBloc.drawRouteMarker(polylines);
     }
   }
 

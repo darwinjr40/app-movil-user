@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_maps_flutter_platform_interface/src/types/polyline.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:micros_user_app/data/blocs/blocs.dart';
 import 'package:micros_user_app/data/models/models.dart';
-import 'package:micros_user_app/data/routes/routes.dart';
 
 class SearchRouteDelegate extends SearchDelegate<SearResult> {
   SearchRouteDelegate()

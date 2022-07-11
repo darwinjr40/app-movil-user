@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+
 class BusService {
   final String _baseUrl = 'https://supportficct.ga/sig_backend/api/';
 
@@ -39,14 +40,24 @@ class BusService {
             double.parse(ida["latitude"]), double.parse(ida["longitude"])));
       }
       lineaRutaIda = Polyline(
-        polylineId: PolylineId('ln' + a + 'Ida'),
-        // color: Colors.red.withOpacity(0.7),
-        color: colorLineas[i],
-        width: 3,
-        startCap: Cap.roundCap,
-        endCap: Cap.roundCap,
-        points: rutaIda,
-      );
+          polylineId: PolylineId('ln' + a + 'Ida'),
+          // color: Colors.red.withOpacity(0.7),
+          color: colorLineas[i],
+          width: 3,
+          startCap: Cap.roundCap,
+          endCap: Cap.roundCap,
+          points: rutaIda,
+          patterns: [
+            PatternItem.dash(30.0),
+            PatternItem.gap(20.0),
+            // PatternItem.dot,
+            // PatternItem.gap(20.0),
+          ],
+          consumeTapEvents: true,
+          onTap: () {
+            debugPrint('------------------------------Ruta de ida');
+          });
+
       i++;
       for (var vuelta in item["paths"]["vuelta"]) {
         rutaVuelta.add(LatLng(double.parse((vuelta["latitude"])),
@@ -68,8 +79,6 @@ class BusService {
       routes.addAll({a: linea});
     }
 
-
-    
     // print(routes);
     // print("arriba----------------------------------------------");
     return routes;

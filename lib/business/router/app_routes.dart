@@ -32,6 +32,8 @@ class AppRoutes {
 
     appRoutes
         .addAll({'loading': (BuildContext context) => const LoadingScreen()});
+    appRoutes
+        .addAll({'message': (BuildContext context) => const MessageScreen()});
 
     for (final option in menuOptions) {
       appRoutes.addAll({option.route: (BuildContext context) => option.screen});
