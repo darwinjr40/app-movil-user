@@ -100,23 +100,23 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
       starMarker = Marker(
         markerId: MarkerId('${polyline.polylineId.value}start'),
-        position: polyline.points.first,
+        position: polyline.points[200],
         icon: initMarker,
         // infoWindow: const InfoWindow(
         //   title: 'Inicio',
         //   snippet: '!Este es el punto de inicio de mi ruta',
         // ),
       );
-
-      endMarker = Marker(
-          markerId: MarkerId('${polyline.polylineId.value}end'),
-          position: polyline.points.last,
-          infoWindow: const InfoWindow(
-            title: 'Fin',
-            snippet: '!Este es el punto Final de mi ruta',
-          ));
       currentMarkers['${polyline.polylineId.value}start'] = starMarker;
-      currentMarkers['${polyline.polylineId.value}end'] = endMarker;
+
+      // endMarker = Marker(
+      //     markerId: MarkerId('${polyline.polylineId.value}end'),
+      //     position: polyline.points.last,
+      //     infoWindow: const InfoWindow(
+      //       title: 'Fin',
+      //       snippet: '!Este es el punto Final de mi ruta',
+      //     ));
+      // currentMarkers['${polyline.polylineId.value}end'] = endMarker;
     }
     add(OnUpdateMarkesEvent(currentMarkers));
 
