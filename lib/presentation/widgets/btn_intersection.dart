@@ -36,22 +36,27 @@ class _BtnIntersectionBody extends StatelessWidget {
           icon: const Icon(
             Icons.bus_alert,
             color: Colors.black,
+            // color: Color.fromARGB(255, 99, 80, 80),
           ),
-          onPressed: () {
+          onPressed: () async {
             // ! Instancias de los gestores de estado
-            final searchBloc = BlocProvider.of<SearchBloc>(context);
-            searchBloc.add(OnActivateLegendEvent());
             final mapBloc = BlocProvider.of<MapBloc>(context);
             //* puntoactual tiene la ubicacion del usuario en el momento que apretaron el boton
             final myRange = mapBloc.state.circles.first;
             //! aqui es donde llama a tu metodo y se supone que me devuelve las lineas correctas
-            //* por ahora lo que hace es devolverme todas
+            //* por ahora lo que hace es intersectar Todas las polylines(ida y vuelta) que se encuentran dentro de 'myRange'
             final busService = BlocProvider.of<BusBloc>(context);
-            // final intersectedPolylines = BusRoutes.getIntersectedLines(myRange);
             final intersectedPolylines =
                 busService.getIntersectedLines(myRange);
-            // * Esta cosa lo que hace es actualizar las polylines del mapa para que las dibuje
+            // * Esta cosa lo que hace es actualizar las polylines(ida, vuelta) del mapa  para que las dibuje
             mapBloc.add(UpdatePolylinesEvent(intersectedPolylines));
+            await Future.delayed(const Duration(milliseconds: 300));
+            final lineasUnicas = busService.getMapFromSet(mapBloc.state.polylines);
+            final searchBloc = BlocProvider.of<SearchBloc>(context);
+            // //*actualiza las polylines en SearchBloc
+            searchBloc.add(OnUpdateRoutesSearchEvent(lineasUnicas));
+            //* Activa la Legenda
+            searchBloc.add(OnActivateLegendEvent());
           },
         ),
       ),

@@ -10,7 +10,7 @@ abstract class BusEvent extends Equatable {
 class OnBusInitializedEvent extends BusEvent {
   final Map<String, Set<Polyline>> newRoutes;
 
-  const OnBusInitializedEvent({required this.newRoutes});
+  const OnBusInitializedEvent( this.newRoutes);
 }
 
 class OnUpdateRoutesEvent extends BusEvent {

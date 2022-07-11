@@ -38,8 +38,8 @@ class SearchRouteDelegate extends SearchDelegate<SearResult> {
   @override
   Widget buildResults(BuildContext context) {
     final result = BlocProvider.of<BusBloc>(context).searchWhereLike(query);
-    return result.isNotEmpty?
-        getBuildSuggestions2(result)
+    return result.isNotEmpty
+        ? getBuildSuggestions2(result)
         : const Center(
             child: Text(
               'No se encontraron resultados, intenta con otro numero',
@@ -50,34 +50,16 @@ class SearchRouteDelegate extends SearchDelegate<SearResult> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final busRoutes = BlocProvider.of<BusBloc>(context).state.routes;
     //  final busRoutes = BusRoutes.routes;
     // return BlocBuilder<BusBloc, BusState>(builder: (context, state) {});
+    final searchBloc = BlocProvider.of<SearchBloc>(context);
+    Map<String, Set<Polyline>> busRoutes;
+    if (searchBloc.state.displayLegend) {
+      busRoutes = BlocProvider.of<SearchBloc>(context).state.routes;
+    } else {
+      busRoutes = BlocProvider.of<BusBloc>(context).state.routes;
+    }
     return getBuildSuggestions2(busRoutes);
-  }
-
-  Widget getBuildSuggestions(Map<String, Set<Polyline>> busRoutes) {
-    return ListView.separated(
-      itemBuilder: (context, i) => ListTile(
-        title: Text(
-          'Linea ${busRoutes.keys.elementAt(i)}',
-          style: const TextStyle(color: Colors.black),
-        ),
-        leading: const FaIcon(
-          FontAwesomeIcons.bus,
-          color: Colors.black,
-        ),
-        onTap: () {
-          final res = SearResult(
-            cancel: false,
-            resultPolylines: busRoutes.values.elementAt(i),
-          );
-          close(context, res);
-        },
-      ),
-      separatorBuilder: (_, __) => const Divider(),
-      itemCount: busRoutes.length,
-    );
   }
 
   Widget getBuildSuggestions2(Map<String, Set<Polyline>> busRoutes) {
@@ -116,29 +98,72 @@ class SearchRouteDelegate extends SearchDelegate<SearResult> {
   List<Widget> _getSlidableAction(
       Map<String, Set<Polyline>> busRoutes, int index) {
     List<String> options = ['Ida', 'vuelta', 'Ambos'];
-    List<Color> colors = [Colors.grey.withOpacity(0.6), Colors.grey.withOpacity(0.8), Colors.grey];
+    List<Color> colors = [
+      Colors.grey.withOpacity(0.6),
+      Colors.grey.withOpacity(0.8),
+      Colors.grey
+    ];
     List<IconData> icons = [
       Icons.arrow_upward,
       Icons.arrow_downward,
       Icons.swap_vert
     ];
     List<Widget> listaSlide = [];
-    Set<Polyline> polylines;
-    for (int i = 0; i < options.length; i++) {
-      Widget slidableAction = SlidableAction(
-          label: options[i],
-          backgroundColor: colors[i],
-          icon: icons[i],
-          onPressed: (context) {
-            //0=ida | 1=vuelta
-            polylines = ((i == 0) | (i == 1)) 
-                ? ({busRoutes.values.elementAt(index).elementAt(i)})
-                : (busRoutes.values.elementAt(index));
-            close(
-                context, SearResult(cancel: false, resultPolylines: polylines));
-          });
-      listaSlide.add(slidableAction);
+    Set<Polyline> setPolylines = busRoutes.values.elementAt(index);
+    String key = busRoutes.keys.elementAt(index);
+    if (setPolylines.isNotEmpty) {
+      int k = 0;
+      Widget slidableAction;
+      int n = setPolylines.length;
+      for (int i = 0; i < n + 1; i++) {
+        k = 0;
+        if (i >= n && n == 2) k = 1;
+        if (i < n) {
+          String polylineId = setPolylines.elementAt(i).polylineId.value;
+          if (polylineId.contains('${key}Ida') ||
+              polylineId.contains('${key}Vuelta')) k = 2;
+        }
+
+        if (k > 0) {
+          slidableAction = SlidableAction(
+              label: options[i % 3],
+              backgroundColor: colors[i % 3],
+              icon: icons[i % 3],
+              onPressed: (context) {
+                Set<Polyline> polylines = (i >= n)
+                    ? (setPolylines)
+                    : ({setPolylines.elementAt(i)});
+                close(context,
+                    SearResult(cancel: false, resultPolylines: polylines));
+              });
+          listaSlide.add(slidableAction);
+        }
+      }
     }
     return listaSlide;
+  }
+
+  Widget getBuildSuggestions(Map<String, Set<Polyline>> busRoutes) {
+    return ListView.separated(
+      itemBuilder: (context, i) => ListTile(
+        title: Text(
+          'Linea ${busRoutes.keys.elementAt(i)}',
+          style: const TextStyle(color: Colors.black),
+        ),
+        leading: const FaIcon(
+          FontAwesomeIcons.bus,
+          color: Colors.black,
+        ),
+        onTap: () {
+          final res = SearResult(
+            cancel: false,
+            resultPolylines: busRoutes.values.elementAt(i),
+          );
+          close(context, res);
+        },
+      ),
+      separatorBuilder: (_, __) => const Divider(),
+      itemCount: busRoutes.length,
+    );
   }
 }

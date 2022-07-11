@@ -29,11 +29,10 @@ class _BtnShowIntersection extends StatelessWidget {
    Future onSearchResults(BuildContext context, SearResult result) async{
     final searchBloc = BlocProvider.of<SearchBloc>(context);
     final mapBloc = BlocProvider.of<MapBloc>(context);
-    searchBloc.add(OnActivateLegendEvent());
     final polylines = result.resultPolylines;
     if (polylines!.isNotEmpty) {
       mapBloc.add(UpdatePolylinesEvent(polylines));
-      await mapBloc.drawRouteMarker(polylines);
+      searchBloc.add(OnActivateLegendEvent());
     }
   }
 

@@ -7,6 +7,8 @@ import 'dart:convert';
 class BusService {
   final String _baseUrl = 'https://supportficct.ga/sig_backend/api/';
 
+
+
   Future<Map<String, Set<Polyline>>?> loadBus() async {
     final url = (_baseUrl + 'bus/all');
     final resp = await http.get(Uri.parse(url));
@@ -34,31 +36,32 @@ class BusService {
       linea = {};
       List<LatLng> rutaIda = [];
       List<LatLng> rutaVuelta = [];
+      //numero de linea
       String a = item["bus"]["id"].toString();
+      //coordenadas de ida lista
       for (var ida in item["paths"]["ida"]) {
         rutaIda.add(LatLng(
             double.parse(ida["latitude"]), double.parse(ida["longitude"])));
       }
       lineaRutaIda = Polyline(
-          polylineId: PolylineId('ln' + a + 'Ida'),
-          // color: Colors.red.withOpacity(0.7),
-          color: colorLineas[i],
-          width: 3,
-          startCap: Cap.roundCap,
-          endCap: Cap.roundCap,
-          points: rutaIda,
-          patterns: [
-            PatternItem.dash(30.0),
-            PatternItem.gap(20.0),
-            // PatternItem.dot,
-            // PatternItem.gap(20.0),
+        polylineId: PolylineId('ln' + a + 'Ida'),
+        // color: Colors.red.withOpacity(0.7),
+        color: colorLineas[i],
+        width: 4,
+        startCap: Cap.customCapFromBitmap(BitmapDescriptor.defaultMarkerWithHue(100),
+            refWidth: 14.0),
+        endCap: Cap.customCapFromBitmap(BitmapDescriptor.defaultMarker,
+            refWidth: 14.0),
+        points: rutaIda,
+        patterns: [
+           PatternItem.dash(100.0),
+            PatternItem.gap(5.0),
+            PatternItem.dash(20.0),
+            PatternItem.gap(30.0),  
           ],
-          consumeTapEvents: true,
-          onTap: () {
-            debugPrint('------------------------------Ruta de ida');
-          });
-
+      );
       i++;
+      //carga de coordenadas
       for (var vuelta in item["paths"]["vuelta"]) {
         rutaVuelta.add(LatLng(double.parse((vuelta["latitude"])),
             double.parse(vuelta["longitude"])));
@@ -67,15 +70,22 @@ class BusService {
         polylineId: PolylineId('ln' + a + 'Vuelta'),
         // color: Colors.red,
         color: colorLineas[i],
-        width: 3,
-        startCap: Cap.roundCap,
-        endCap: Cap.roundCap,
+        width: 4,
+        startCap: Cap.customCapFromBitmap(BitmapDescriptor.defaultMarkerWithHue(100),
+            refWidth: 14.0),
+        endCap: Cap.customCapFromBitmap(BitmapDescriptor.defaultMarker,
+            refWidth: 14.0),
         points: rutaVuelta,
+        patterns: [
+            PatternItem.dash(100.0),
+            PatternItem.gap(5.0),
+            PatternItem.dash(20.0),
+            PatternItem.gap(30.0),          
+          ],
       );
       i++;
       linea.add(lineaRutaIda);
       linea.add(lineaRutaVuelta);
-      // print(a);
       routes.addAll({a: linea});
     }
 

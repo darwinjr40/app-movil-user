@@ -28,14 +28,16 @@ class CustomSearchBar extends StatelessWidget {
 class _CustomSearchBarBody extends StatelessWidget {
   const _CustomSearchBarBody({Key? key}) : super(key: key);
 
-   Future onSearchResults(BuildContext context, SearResult result) async{
-    final searchBloc = BlocProvider.of<SearchBloc>(context);
+  Future onSearchResults(BuildContext context, SearResult result) async {
     final mapBloc = BlocProvider.of<MapBloc>(context);
-    searchBloc.add(OnActivateLegendEvent());
+    final searchBloc = BlocProvider.of<SearchBloc>(context);
     final polylines = result.resultPolylines;
     if (polylines!.isNotEmpty) {
       mapBloc.add(UpdatePolylinesEvent(polylines));
-      await mapBloc.drawRouteMarker(polylines);
+      final lineasUnicas = BlocProvider.of<BusBloc>(context).getMapFromSet(polylines);
+      searchBloc.add(OnUpdateRoutesSearchEvent(lineasUnicas));
+      searchBloc.add(OnActivateLegendEvent());
+      // await mapBloc.drawRouteMarker(polylines);
     }
   }
 
@@ -50,7 +52,9 @@ class _CustomSearchBarBody extends StatelessWidget {
           onTap: () async {
             final result = await showSearch(
                 context: context, delegate: SearchRouteDelegate());
-            if ((result == null ) || (result.cancel) || (result.resultPolylines == null)) return;
+            if ((result == null) ||
+                (result.cancel) ||
+                (result.resultPolylines == null)) return;
             onSearchResults(context, result);
           },
           child: Container(
