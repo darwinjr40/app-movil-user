@@ -8,15 +8,19 @@ class BtnIntersection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final searchBloc = BlocProvider.of<SearchBloc>(context);
+    // final driverBloc = BlocProvider.of<DriverBloc>(context);
     return BlocBuilder<SearchBloc, SearchState>(
-      builder: (context, state) {
-        return state.displayLegend
+        builder: (context, searchState) {
+      return BlocBuilder<DriverBloc, DriverState>(
+          builder: (context, driverState) {
+        return searchState.displayLegend
             ? const SizedBox()
             : FadeInRight(
                 duration: const Duration(milliseconds: 300),
                 child: const _BtnIntersectionBody());
-      },
-    );
+      });
+    });
   }
 }
 
@@ -38,10 +42,13 @@ class _BtnIntersectionBody extends StatelessWidget {
             color: Colors.black,
           ),
           onPressed: () {
+            final driverBloc = BlocProvider.of<DriverBloc>(context);
+            driverBloc.add(const OnGetDriverEvent(busId: 1, latitud: 1,longitud: 1));
+             debugPrint('listooooooooooooooooooooooooooooooooooooooooooooooooooooooo');
             // ! Instancias de los gestores de estado
             final searchBloc = BlocProvider.of<SearchBloc>(context);
             searchBloc.add(OnActivateLegendEvent());
-                  final mapBloc = BlocProvider.of<MapBloc>(context);
+            final mapBloc = BlocProvider.of<MapBloc>(context);
             //* puntoactual tiene la ubicacion del usuario en el momento que apretaron el boton
             final myRange = mapBloc.state.circles.first;
             //! aqui es donde llama a tu metodo y se supone que me devuelve las lineas correctas
