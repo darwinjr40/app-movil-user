@@ -39,6 +39,7 @@ class _CustomSearchBarBody extends StatelessWidget {
       searchBloc.add(OnActivateLegendEvent());
       await mapBloc.drawRouteMarker(polylines);
     }
+    
   }
 
   @override
