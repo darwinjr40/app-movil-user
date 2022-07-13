@@ -13,16 +13,15 @@ class DriverService extends ChangeNotifier {
     // final resp = await http.get(url);
     var resp = await http.get(Uri.parse(
         'https://supportficct.ga/sig_backend/public/api/drivers/nearbuses/1/-17.77987129557522/-63.17502205921347'));
-
     var jsonResp = jsonDecode(resp.body);
+
     List<Drivers> listaDriver = [];
+    
     for (var item in jsonResp) {
       Drivers driver = Drivers.fromMap(item);
-      // debugPrint(driver.user.toMap().toString());
       listaDriver.add(driver);
     }
     if (listaDriver.isEmpty) {
-      debugPrint('lista vacia en APIIIIIIIIIIIIIIIIIIIIIIIIIIII');
       return [];
     }
     debugPrint('LISTA CoN DRIVERS');

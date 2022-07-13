@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 
+
 class Drivers {
   Drivers({
     required this.id,
@@ -17,7 +18,7 @@ class Drivers {
     required this.vehicleId,
     this.createdAt,
     this.updatedAt,
-    // required this.vehicle,
+    required this.vehicle,
     required this.user,
   });
 
@@ -26,13 +27,13 @@ class Drivers {
   String? outDate;
   int taken;
   int status;
-  String currentLat;
-  String currentLong;
+  double currentLat;
+  double currentLong;
   int userId;
   int vehicleId;
   DateTime? createdAt;
   DateTime? updatedAt;
-  // Vehicle vehicle;
+  Vehicle vehicle;
   User user;
 
   Drivers copyWith({
@@ -41,13 +42,13 @@ class Drivers {
     String? outDate,
     int? taken,
     int? status,
-    String? currentLat,
-    String? currentLong,
+    double? currentLat,
+    double? currentLong,
     int? userId,
     int? vehicleId,
     DateTime? createdAt,
     DateTime? updatedAt,
-    // Vehicle? vehicle,
+    Vehicle? vehicle,
     User? user,
   }) =>
       Drivers(
@@ -62,7 +63,7 @@ class Drivers {
         vehicleId: vehicleId ?? this.vehicleId,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
-        // // // vehicle: vehicle ?? this.vehicle,
+        vehicle: vehicle ?? this.vehicle,
         user: user ?? this.user,
       );
 
@@ -76,8 +77,8 @@ class Drivers {
         outDate: json["outDate"],
         taken: json["taken"],
         status: json["status"],
-        currentLat: json["currentLat"],
-        currentLong: json["currentLong"],
+        currentLat: double.parse(json["currentLat"]),
+        currentLong: double.parse(json["currentLong"]),
         userId: json["user_id"],
         vehicleId: json["vehicle_id"],
         createdAt: json["created_at"] == null
@@ -86,7 +87,7 @@ class Drivers {
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"]),
-        // // vehicle: Vehicle.fromMap(json["vehicle"]),
+        vehicle: Vehicle.fromMap(json["vehicle"]),
         user: User.fromMap(json["user"]),
       );
 
@@ -102,7 +103,7 @@ class Drivers {
         "vehicle_id": vehicleId,
         "created_at": createdAt == null ? null : createdAt!.toIso8601String(),
         "updated_at": updatedAt == null ? null : updatedAt!.toIso8601String(),
-        // // "vehicle": vehicle.toMap(),
+        "vehicle": vehicle.toMap(),
         "user": user.toMap(),
       };
 }
@@ -156,7 +157,7 @@ class User {
       User(
         id: id ?? this.id,
         admin: admin ?? this.admin,
-         birthday: birthday ?? this.birthday,
+        birthday: birthday ?? this.birthday,
         ci: ci ?? this.ci,
         email: email ?? this.email,
         gender: gender ?? this.gender,

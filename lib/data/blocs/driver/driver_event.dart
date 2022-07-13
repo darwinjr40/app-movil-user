@@ -17,3 +17,4 @@ class OnGetDriverEvent extends DriverEvent {
     required this.longitud,
   });
 }
+  class OnPolylineEvent extends DriverEvent{}

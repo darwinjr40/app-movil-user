@@ -35,6 +35,12 @@ class UpdateCirclesEvent extends MapEvent {
 
 class OnUpdateMarkesEvent extends MapEvent {
   final Map<String, Marker> markersAux;
-  
+
   const OnUpdateMarkesEvent(this.markersAux);
+}
+
+class OnDrawRouteMarkerEvent extends MapEvent {
+  final Set<Polyline> polylines;
+
+  const OnDrawRouteMarkerEvent({required this.polylines});
 }
