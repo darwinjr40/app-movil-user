@@ -35,7 +35,6 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<BusBloc>(context); //add
-     
     return Scaffold(
       body: BlocBuilder<LocationBloc, LocationState>(
         builder: (context, locationState) {
@@ -46,6 +45,8 @@ class _MapScreenState extends State<MapScreen> {
           }
           return BlocBuilder<MapBloc, MapState>(
             builder: (context, mapState) {
+            //   return BlocBuilder<DriverBloc, DriverState>(
+            // builder: (context, driverState) {
               final circles = Set<Circle>.from(mapState.circles);
               if (!mapState.showMyRange) {
                 circles.removeWhere(

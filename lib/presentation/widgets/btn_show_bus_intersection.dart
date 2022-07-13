@@ -9,14 +9,17 @@ class BtnshowBusIntersection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final searchBloc = BlocProvider.of<SearchBloc>(context);
-    // final driverBloc = BlocProvider.of<DriverBloc>(context);
+    final driverBloc = BlocProvider.of<DriverBloc>(context);
     // return BlocBuilder<MapBloc, MapState>(builder: (context, mapState) {
-      return BlocBuilder<DriverBloc, DriverState>(
-          builder: (context, driverState) {
-        return FadeInRight(
-            duration: const Duration(milliseconds: 300),
-            child: const _BtnIntersectionBody());
-      });
+    return BlocBuilder<DriverBloc, DriverState>(
+        builder: (context, driverState) {
+      return //driverState.btnDriver
+          FadeInRight(
+        duration: const Duration(milliseconds: 300),
+        child: const _BtnIntersectionBody(),
+      );
+      // : const SizedBox();
+    });
     // });
   }
 }
@@ -45,13 +48,15 @@ class _BtnIntersectionBody extends StatelessWidget {
             final locationBloc = BlocProvider.of<LocationBloc>(context);
             double lat = locationBloc.state.lastKnownLocation!.latitude;
             double lon = locationBloc.state.lastKnownLocation!.longitude;
-
             final driverBloc = BlocProvider.of<DriverBloc>(context);
-            driverBloc
-                .add(OnGetDriverEvent(busId: 1, latitud: lat, longitud: lon));
-
+            driverBloc.add(OnGetDriverEvent(
+                busId: driverBloc.state.busID, latitud: lat, longitud: lon));
+            await Future.delayed(const Duration(milliseconds: 3000));
             final mapBloc = BlocProvider.of<MapBloc>(context);
+            driverBloc.add(const OnBtnDriverEvent(boton: true));
             // await mapBloc.drawRouteMarker(driverBloc.state.polylinesDrivers);
+            debugPrint('linea');
+            debugPrint(driverBloc.state.busID.toString());
             mapBloc.add(OnDrawRouteMarkerEvent(
                 polylines: driverBloc.state.polylinesDrivers));
           },

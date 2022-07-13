@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:micros_user_app/data/blocs/blocs.dart';
 import 'package:micros_user_app/data/models/models.dart';
 import 'package:micros_user_app/data/services/services.dart';
 
@@ -18,17 +19,22 @@ class DriverBloc extends Bloc<DriverEvent, DriverState> {
     });
 
     on<OnGetDriverEvent>(_onGetDriver);
+
+    on<OnBtnDriverEvent>(
+        (event, emit) => emit(state.copyWith(btnDriver: event.boton)));
+
+    on<OnBusIDEvent>((event, emit) => emit(state.copyWith(busID: event.busID)));
   }
   void _onGetDriver(OnGetDriverEvent event, Emitter<DriverState> emit) async {
+    debugPrint('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+    debugPrint(state.busID.toString());
     final List<Drivers> newListDrivers =
-        await driverService.getDrivers(1, 1, 1);
+        await driverService.getDrivers(state.busID, event.latitud, event.longitud);
     debugPrint(newListDrivers.length.toString());
     emit(state.copyWith(listaDrivers: newListDrivers));
     await Future.delayed(const Duration(milliseconds: 300));
     Set<Polyline> newPolylinesDrivers = {};
     LatLng newLatLng;
-
-    debugPrint('Darwin---------------------------------');
     debugPrint(state.listaDrivers.length.toString());
     for (var driver in newListDrivers) {
       newLatLng = LatLng(driver.currentLat, driver.currentLong);
@@ -39,12 +45,7 @@ class DriverBloc extends Bloc<DriverEvent, DriverState> {
         ),
       );
     }
-    debugPrint('Darwin---------------------------------');
-    debugPrint('Darwin---------------------------------');
-    debugPrint('Darwin---------------------------------');
-    debugPrint('Darwin---------------------------------');
-    debugPrint('Darwin---------------------------------');
-    debugPrint('Darwin---------------------------------');
+
     emit(state.copyWith(polylinesDrivers: newPolylinesDrivers));
   }
 }
