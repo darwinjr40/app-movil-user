@@ -8,15 +8,19 @@ class BtnIntersection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final searchBloc = BlocProvider.of<SearchBloc>(context);
+    // final driverBloc = BlocProvider.of<DriverBloc>(context);
     return BlocBuilder<SearchBloc, SearchState>(
-      builder: (context, state) {
-        return state.displayLegend
+        builder: (context, searchState) {
+      return BlocBuilder<DriverBloc, DriverState>(
+          builder: (context, driverState) {
+        return searchState.displayLegend
             ? const SizedBox()
             : FadeInRight(
                 duration: const Duration(milliseconds: 300),
                 child: const _BtnIntersectionBody());
-      },
-    );
+      });
+    });
   }
 }
 

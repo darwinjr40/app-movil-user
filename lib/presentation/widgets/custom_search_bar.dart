@@ -37,7 +37,7 @@ class _CustomSearchBarBody extends StatelessWidget {
       final lineasUnicas = BlocProvider.of<BusBloc>(context).getMapFromSet(polylines);
       searchBloc.add(OnUpdateRoutesSearchEvent(lineasUnicas));
       searchBloc.add(OnActivateLegendEvent());
-      await mapBloc.drawRouteMarker(polylines);
+      // await mapBloc.drawRouteMarker(polylines);
     }
     
   }

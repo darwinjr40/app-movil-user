@@ -17,6 +17,7 @@ void main() {
                 MapBloc(locationBloc: BlocProvider.of<LocationBloc>(context))),
         BlocProvider(create: (context) => SearchBloc()),
         BlocProvider(create: (context) => BusBloc(busService: BusService())),
+        BlocProvider(create: (context) => DriverBloc(driverService: DriverService())),
       ],
       child: const MyApp(),
     ),

@@ -35,6 +35,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
     on<UpdateCirclesEvent>(_onCircleUpdate);
 
+    //darwin PENELOPE
+    on<OnDrawRouteMarkerEvent>(_onDrawRouteMarker);
+
     on<OnUpdateMarkesEvent>(
         (event, emit) => emit(state.copyWith(markers: event.markersAux)));
 
@@ -90,17 +93,17 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     return super.close();
   }
 
-  Future drawRouteMarker(Set<Polyline> polylines) async {
-    Marker starMarker, endMarker;
+  void _onDrawRouteMarker(OnDrawRouteMarkerEvent event, Emitter<MapState> emit) async {
+    Marker starMarker;
     Map<String, Marker> currentMarkers =
         Map<String, Marker>.from(state.markers);
     BitmapDescriptor initMarker = await getAssetImageMarker();
-    for (Polyline polyline in polylines) {
+    for (Polyline polyline in event.polylines) {
       //Custom markers
 
       starMarker = Marker(
         markerId: MarkerId('${polyline.polylineId.value}start'),
-        position: polyline.points[200],
+        position: polyline.points[0],
         icon: initMarker,
         // infoWindow: const InfoWindow(
         //   title: 'Inicio',
