@@ -58,6 +58,7 @@ class _MapScreenState extends State<MapScreen> {
                       initialLocation: locationState.lastKnownLocation!,
                       polylines: mapState.polylines,
                       circles: circles,
+                      markers: mapState.markers.values.toSet(),
                     ),
                     const CustomSearchBar(),
                     const LegendListView(),
@@ -72,6 +73,7 @@ class _MapScreenState extends State<MapScreen> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: const [
+          BtnShowIntersection(),
           BtnIntersection(),
           BtnShowRange(),
           BtnFollowUser(),

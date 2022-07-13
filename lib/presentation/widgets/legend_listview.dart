@@ -57,24 +57,26 @@ class _MapLegend extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mapBloc = BlocProvider.of<MapBloc>(context);
-    // final busRoutes = BusRoutes.getMapFromSet(mapBloc.state.polylines);
-    final busRoutes = BlocProvider.of<BusBloc>(context).getMapFromSet(mapBloc.state.polylines);
+    //*tiene las lineas dibujadas en el mapa
+    // final mapBloc = BlocProvider.of<MapBloc>(context);
+    // final lineasUnicas = BlocProvider.of<BusBloc>(context)
+    //     .getMapFromSet(mapBloc.state.polylines);
+    final lineasUnicas = BlocProvider.of<SearchBloc>(context).state.routes;
     return ListView.separated(
       reverse: true,
       itemBuilder: (context, i) => Row(
         children: [
           Icon(
             Icons.circle,
-            color: busRoutes.values.elementAt(i).last.color,
+            color: lineasUnicas.values.elementAt(i).last.color,
             size: 15,
           ),
           const SizedBox(width: 10),
-          Text('Linea ${busRoutes.keys.elementAt(i)}'),
+          Text('Linea ${lineasUnicas.keys.elementAt(i)}'),
         ],
       ),
       separatorBuilder: (_, __) => const SizedBox(height: 5),
-      itemCount: busRoutes.length,
+      itemCount: lineasUnicas.length,
     );
   }
 }
@@ -101,6 +103,8 @@ class _BtnBack extends StatelessWidget {
           onPressed: () {
             final Set<Polyline> emptySet = {};
             mapBloc.add(UpdatePolylinesEvent(emptySet));
+            final Map<String, Marker> emptymarkers = {};
+            mapBloc.add(OnUpdateMarkesEvent(emptymarkers));
             searchBloc.add(OnDeactivateLegendEvent());
           },
         ),

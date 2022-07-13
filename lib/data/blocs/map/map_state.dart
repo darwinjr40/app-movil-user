@@ -8,6 +8,7 @@ class MapState extends Equatable {
 
   final Set<Polyline> polylines;
   final Set<Circle> circles;
+  final Map<String, Marker> markers;
 
   const MapState({
     this.isMapInitialized = false,
@@ -15,8 +16,10 @@ class MapState extends Equatable {
     this.showMyRange = false,
     Set<Polyline>? polylines,
     Set<Circle>? circles,
+    Map<String, Marker>? markers,
   })  : circles = circles ?? const {},
-        polylines = polylines ?? const {};
+        polylines = polylines ?? const {},
+        markers = markers ?? const {};
 
   MapState copyWith({
     bool? isMapInitialized,
@@ -24,6 +27,7 @@ class MapState extends Equatable {
     bool? showMyRange,
     Set<Polyline>? polylines,
     Set<Circle>? circles,
+    Map<String, Marker>? markers,
   }) =>
       MapState(
         isMapInitialized: isMapInitialized ?? this.isMapInitialized,
@@ -31,6 +35,7 @@ class MapState extends Equatable {
         showMyRange: showMyRange ?? this.showMyRange,
         polylines: polylines ?? this.polylines,
         circles: circles ?? this.circles,
+        markers: markers ?? this.markers,
       );
 
   @override
@@ -40,5 +45,6 @@ class MapState extends Equatable {
         showMyRange,
         polylines,
         circles,
+        markers
       ];
 }

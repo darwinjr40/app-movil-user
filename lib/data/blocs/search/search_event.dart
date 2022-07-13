@@ -10,3 +10,9 @@ abstract class SearchEvent extends Equatable {
 class OnActivateLegendEvent extends SearchEvent {}
 
 class OnDeactivateLegendEvent extends SearchEvent {}
+
+class OnUpdateRoutesSearchEvent extends SearchEvent {
+  final Map<String, Set<Polyline>> auxRoutes;
+
+  const OnUpdateRoutesSearchEvent(this.auxRoutes);
+}

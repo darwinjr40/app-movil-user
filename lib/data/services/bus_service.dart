@@ -3,8 +3,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+
 class BusService {
   final String _baseUrl = 'https://supportficct.ga/sig_backend/api/';
+
+
 
   Future<Map<String, Set<Polyline>>?> loadBus() async {
     final url = (_baseUrl + 'bus/all');
@@ -44,12 +47,18 @@ class BusService {
         polylineId: PolylineId('ln' + a + 'Ida'),
         // color: Colors.red.withOpacity(0.7),
         color: colorLineas[i],
-        width: 3,
+        width: 4,
         startCap: Cap.customCapFromBitmap(BitmapDescriptor.defaultMarkerWithHue(100),
-            refWidth: 10.0),
+            refWidth: 14.0),
         endCap: Cap.customCapFromBitmap(BitmapDescriptor.defaultMarker,
-            refWidth: 10.0),
+            refWidth: 14.0),
         points: rutaIda,
+        patterns: [
+           PatternItem.dash(100.0),
+            PatternItem.gap(5.0),
+            PatternItem.dash(20.0),
+            PatternItem.gap(30.0),  
+          ],
       );
       i++;
       //carga de coordenadas
@@ -61,15 +70,22 @@ class BusService {
         polylineId: PolylineId('ln' + a + 'Vuelta'),
         // color: Colors.red,
         color: colorLineas[i],
-        width: 3,
-        startCap: Cap.roundCap,
-        endCap: Cap.roundCap,
+        width: 4,
+        startCap: Cap.customCapFromBitmap(BitmapDescriptor.defaultMarkerWithHue(100),
+            refWidth: 14.0),
+        endCap: Cap.customCapFromBitmap(BitmapDescriptor.defaultMarker,
+            refWidth: 14.0),
         points: rutaVuelta,
+        patterns: [
+            PatternItem.dash(100.0),
+            PatternItem.gap(5.0),
+            PatternItem.dash(20.0),
+            PatternItem.gap(30.0),          
+          ],
       );
       i++;
       linea.add(lineaRutaIda);
       linea.add(lineaRutaVuelta);
-      // print(a);
       routes.addAll({a: linea});
     }
 

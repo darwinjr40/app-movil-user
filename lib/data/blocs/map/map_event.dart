@@ -32,3 +32,9 @@ class UpdateCirclesEvent extends MapEvent {
 
   const UpdateCirclesEvent(this.userlocation);
 }
+
+class OnUpdateMarkesEvent extends MapEvent {
+  final Map<String, Marker> markersAux;
+  
+  const OnUpdateMarkesEvent(this.markersAux);
+}

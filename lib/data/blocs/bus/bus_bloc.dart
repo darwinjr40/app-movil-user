@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:micros_user_app/data/services/services.dart';
 
@@ -20,21 +21,20 @@ class BusBloc extends Bloc<BusEvent, BusState> {
   }
 
   void _init() async {
+    debugPrint('iniciando------------------------------');
     final varRoutes = await BusService().loadBus();
-    if (varRoutes == null) {
-      return;
+    if (varRoutes != null) {
+      add(OnBusInitializedEvent(varRoutes));
+      // add(const OnBusInitializedEvent);
+      // emit(state.copyWith(routes: varRoutes));
     }
-    // print(varRoutes);
-    emit(state.copyWith(routes: varRoutes));
-    // add(OnUpdateRoutesEvent(varRoutes));
   }
 
   _onUpdateRoutes(OnUpdateRoutesEvent event, Emitter<BusState> emit) async {
     final newRoutes = await BusService().loadBus();
-    if (newRoutes == null) {
-      return;
+    if (newRoutes != null) {
+      emit(state.copyWith(routes: newRoutes));
     }
-    emit(state.copyWith(routes: newRoutes));
   }
 
   Map<String, Set<Polyline>> searchWhereLike(String query) {
@@ -128,6 +128,8 @@ class BusBloc extends Bloc<BusEvent, BusState> {
     return res;
   }
 
+  //* list = polylines dibujadas en el mapa
+  //* return = 'list' in [polylines(busService)] -> unica linea not(ida,vuelta)
   Map<String, Set<Polyline>> getMapFromSet(Set<Polyline> list) {
     // Map<String, Set<Polyline>> routes = state.routes;
     Map<String, Set<Polyline>> result = {};
@@ -139,7 +141,7 @@ class BusBloc extends Bloc<BusEvent, BusState> {
           aux.add(element);
         }
       }
-      if (aux.isNotEmpty) {
+      if (aux.isNotEmpty) {//unicos
         result.addAll({key: aux});
       }
     });
