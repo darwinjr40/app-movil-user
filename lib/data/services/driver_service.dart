@@ -12,11 +12,10 @@ class DriverService extends ChangeNotifier {
     // var url = Uri.https(_baseUrl, '/drivers/nearbuses/1/-17.77987129557522/-63.17502205921347');
     // final resp = await http.get(url);
     var resp = await http.get(Uri.parse(
-        'https://supportficct.ga/sig_backend/public/api/drivers/nearbuses/1/-17.77987129557522/-63.17502205921347'));
+        'https://supportficct.ga/sig_backend/public/api/drivers/nearbuses/$busID/$lat/$lon'));
     var jsonResp = jsonDecode(resp.body);
-
     List<Drivers> listaDriver = [];
-    
+
     for (var item in jsonResp) {
       Drivers driver = Drivers.fromMap(item);
       listaDriver.add(driver);

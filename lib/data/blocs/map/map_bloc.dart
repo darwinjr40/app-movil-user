@@ -93,14 +93,14 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     return super.close();
   }
 
-  void _onDrawRouteMarker(OnDrawRouteMarkerEvent event, Emitter<MapState> emit) async {
+  void _onDrawRouteMarker(
+      OnDrawRouteMarkerEvent event, Emitter<MapState> emit) async {
     Marker starMarker;
-    Map<String, Marker> currentMarkers =
-        Map<String, Marker>.from(state.markers);
+    Map<String, Marker> currentMarkers = {};
+    // Map<String, Marker>.from(state.markers);
     BitmapDescriptor initMarker = await getAssetImageMarker();
     for (Polyline polyline in event.polylines) {
       //Custom markers
-
       starMarker = Marker(
         markerId: MarkerId('${polyline.polylineId.value}start'),
         position: polyline.points[0],

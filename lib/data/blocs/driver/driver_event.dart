@@ -17,4 +17,15 @@ class OnGetDriverEvent extends DriverEvent {
     required this.longitud,
   });
 }
-  class OnPolylineEvent extends DriverEvent{}
+
+class OnPolylineEvent extends DriverEvent {}
+
+class OnBtnDriverEvent extends DriverEvent {
+  final bool boton;
+  const OnBtnDriverEvent({required this.boton});
+}
+
+class OnBusIDEvent extends DriverEvent {
+  final int busID;
+  const OnBusIDEvent({required this.busID});
+}

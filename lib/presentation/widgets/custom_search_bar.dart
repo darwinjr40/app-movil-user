@@ -13,15 +13,17 @@ class CustomSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SearchBloc, SearchState>(
-      builder: (context, state) {
-        return state.displayLegend
+        builder: (context, searchState) {
+      return BlocBuilder<DriverBloc, DriverState>(
+          builder: (context, driverState) {
+        return searchState.displayLegend
             ? const SizedBox()
             : FadeInDown(
                 duration: const Duration(milliseconds: 300),
                 child: const _CustomSearchBarBody(),
               );
-      },
-    );
+      });
+    });
   }
 }
 
@@ -34,7 +36,12 @@ class _CustomSearchBarBody extends StatelessWidget {
     final polylines = result.resultPolylines;
     if (polylines!.isNotEmpty) {
       mapBloc.add(UpdatePolylinesEvent(polylines));
-      final lineasUnicas = BlocProvider.of<BusBloc>(context).getMapFromSet(polylines);
+      final lineasUnicas =
+          BlocProvider.of<BusBloc>(context).getMapFromSet(polylines);
+      final driverBloc = BlocProvider.of<DriverBloc>(context);
+      driverBloc.add(OnBusIDEvent(busID: int.parse(lineasUnicas.keys.first)));
+      driverBloc.add(const OnBtnDriverEvent(boton: true));
+      // driverBloc.state.copyWith(btnDriver: true);
       searchBloc.add(OnUpdateRoutesSearchEvent(lineasUnicas));
       searchBloc.add(OnActivateLegendEvent());
       // await mapBloc.drawRouteMarker(polylines);
@@ -44,45 +51,52 @@ class _CustomSearchBarBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        margin: const EdgeInsets.only(top: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        width: double.infinity,
-        child: GestureDetector(
-          onTap: () async {
-            final result = await showSearch(
-                context: context, delegate: SearchRouteDelegate());
-            if ((result == null) ||
-                (result.cancel) ||
-                (result.resultPolylines == null)) return;
-            onSearchResults(context, result);
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 13,
-            ),
-            child: const Text(
-              'Elegir una Linea de Micro',
-              style: TextStyle(
-                color: Colors.black87,
+    final driverBloc = BlocProvider.of<DriverBloc>(context);
+    return BlocBuilder<DriverBloc, DriverState>(
+        builder: (context, driverState) {
+      return SafeArea(
+        child: Container(
+          margin: const EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          width: double.infinity,
+          child: GestureDetector(
+            onTap: () async {
+              final result = await showSearch(
+                  context: context, delegate: SearchRouteDelegate());
+              driverBloc.add(const OnBtnDriverEvent(boton: true));
+              print(driverState.btnDriver.toString());
+              if ((result == null) ||
+                  (result.cancel) ||
+                  (result.resultPolylines == null)) return;
+
+              onSearchResults(context, result);
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 13,
               ),
-            ),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(100),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 5,
-                  offset: Offset(0, 5),
+              child: const Text(
+                'Elegir una Linea de Micro',
+                style: TextStyle(
+                  color: Colors.black87,
                 ),
-              ],
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(100),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 5,
+                    offset: Offset(0, 5),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
