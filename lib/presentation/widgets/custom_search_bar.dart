@@ -64,7 +64,7 @@ class _CustomSearchBarBody extends StatelessWidget {
               final result = await showSearch(
                   context: context, delegate: SearchRouteDelegate());
               driverBloc.add(const OnBtnDriverEvent(boton: true));
-              print(driverState.btnDriver.toString());
+              debugPrint(driverState.btnDriver.toString());
               if ((result == null) ||
                   (result.cancel) ||
                   (result.resultPolylines == null)) return;

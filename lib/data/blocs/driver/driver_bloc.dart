@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:micros_user_app/data/blocs/blocs.dart';
 import 'package:micros_user_app/data/models/models.dart';
 import 'package:micros_user_app/data/services/services.dart';
 

@@ -105,10 +105,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         markerId: MarkerId('${polyline.polylineId.value}start'),
         position: polyline.points[0],
         icon: initMarker,
-        // infoWindow: const InfoWindow(
-        //   title: 'Inicio',
-        //   snippet: '!Este es el punto de inicio de mi ruta',
-        // ),
+        infoWindow: InfoWindow(
+          title: 'linea: ${polyline.polylineId.value}',
+          snippet: 'placa: MON-675',
+        ),
       );
       currentMarkers['${polyline.polylineId.value}start'] = starMarker;
 

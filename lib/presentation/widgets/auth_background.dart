@@ -75,6 +75,7 @@ class _PurpleBox extends StatelessWidget {
 
 class _Bubble extends StatelessWidget {
   final Widget? child;
+  // ignore: unused_element
   const _Bubble({Key? key, this.child}) : super(key: key);
 
   @override

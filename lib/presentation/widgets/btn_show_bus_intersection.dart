@@ -10,7 +10,7 @@ class BtnshowBusIntersection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final searchBloc = BlocProvider.of<SearchBloc>(context);
-    final driverBloc = BlocProvider.of<DriverBloc>(context);
+    // final driverBloc = BlocProvider.of<DriverBloc>(context);
     // return BlocBuilder<MapBloc, MapState>(builder: (context, mapState) {
     return BlocBuilder<DriverBloc, DriverState>(
         builder: (context, driverState) {
