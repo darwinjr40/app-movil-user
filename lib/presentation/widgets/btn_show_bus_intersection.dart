@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:micros_user_app/data/blocs/blocs.dart';
 
 class BtnshowBusIntersection extends StatelessWidget {
@@ -55,10 +56,19 @@ class _BtnIntersectionBody extends StatelessWidget {
             final mapBloc = BlocProvider.of<MapBloc>(context);
             driverBloc.add(const OnBtnDriverEvent(boton: true));
             // await mapBloc.drawRouteMarker(driverBloc.state.polylinesDrivers);
-            debugPrint('linea');
-            debugPrint(driverBloc.state.busID.toString());
             mapBloc.add(OnDrawRouteMarkerEvent(
                 polylines: driverBloc.state.polylinesDrivers));
+            if (driverBloc.state.listaDrivers.isNotEmpty) {
+              Fluttertoast.showToast(
+                  msg:
+                      '${driverBloc.state.listaDrivers.length} micros cerca',
+                      toastLength: Toast.LENGTH_LONG);
+            } else {
+              Fluttertoast.showToast(
+                  msg: 'No hay micros cerca',
+                  backgroundColor: Colors.red,
+                  toastLength: Toast.LENGTH_LONG);
+            }
           },
         ),
       ),
