@@ -4,19 +4,20 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:micros_user_app/data/models/models.dart';
 import 'package:micros_user_app/data/services/services.dart';
 
 part 'bus_event.dart';
 part 'bus_state.dart';
 
 class BusBloc extends Bloc<BusEvent, BusState> {
-  final BusService busService;
+  BusService busService;
 
-  BusBloc({required this.busService}) : super(const BusState(routes: {})) {
+  BusBloc({required this.busService})
+      : super(const BusState(routes: {}, buses: {})) {
     on<OnBusInitializedEvent>(
-        (event, emit) => emit(state.copyWith(routes: event.newRoutes)));
+        (event, emit) => emit(state.copyWith(mapsRoutes: event.newRoutes)));
     on<OnUpdateRoutesEvent>((event, emit) => _onUpdateRoutes);
-
     _init();
   }
 
@@ -33,7 +34,7 @@ class BusBloc extends Bloc<BusEvent, BusState> {
   _onUpdateRoutes(OnUpdateRoutesEvent event, Emitter<BusState> emit) async {
     final newRoutes = await BusService().loadBus1();
     if (newRoutes != null) {
-      emit(state.copyWith(routes: newRoutes));
+      emit(state.copyWith(mapsRoutes: newRoutes));
     }
   }
 
@@ -141,7 +142,8 @@ class BusBloc extends Bloc<BusEvent, BusState> {
           aux.add(element);
         }
       }
-      if (aux.isNotEmpty) {//unicos
+      if (aux.isNotEmpty) {
+        //unicos
         result.addAll({key: aux});
       }
     });

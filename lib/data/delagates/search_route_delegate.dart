@@ -72,21 +72,32 @@ class SearchRouteDelegate extends SearchDelegate<SearResult> {
 
   Widget getSlidable(
       Map<String, Set<Polyline>> busRoutes, int index, BuildContext context) {
+    final buses = BlocProvider.of<BusBloc>(context).busService.listaBus;
     return Slidable(
       endActionPane: ActionPane(
-        motion: const BehindMotion(),
+        motion: const StretchMotion(),
         children: _getSlidableAction(busRoutes, index),
-        extentRatio: 1,
+        extentRatio: 0.88,
       ),
-      child: ListTile(
+      child: ListTile(        
         title: Text(
           'Linea ${busRoutes.keys.elementAt(index)}',
-          style: const TextStyle(color: Colors.black),
+          style: const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold),
         ),
-        leading: const FaIcon(
-          FontAwesomeIcons.bus,
-          color: Colors.black87,
+        leading: Hero(
+          tag: index,
+          child:  FadeInImage(
+            placeholder: const AssetImage('assets/no-image.jpg'),
+            // image: const NetworkImage('https://picsum.photos/250?image=9'),
+            image: NetworkImage(buses[index].photo),
+            width: 100,
+            fit: BoxFit.contain,
+          ),
         ),
+        // leading: const FaIcon(
+        //   FontAwesomeIcons.bus,
+        //   color: Colors.black87,
+        // ),
         trailing: const Icon(
           Icons.arrow_forward_rounded,
           color: Colors.black,
@@ -97,7 +108,7 @@ class SearchRouteDelegate extends SearchDelegate<SearResult> {
 
   List<Widget> _getSlidableAction(
       Map<String, Set<Polyline>> busRoutes, int index) {
-    List<String> options = ['Ida', 'vuelta', 'Ambos'];
+    List<String> options = ['Ida', 'Vuelta', 'Ambos'];
     List<Color> colors = [
       Colors.grey.withOpacity(0.6),
       Colors.grey.withOpacity(0.8),
@@ -130,9 +141,8 @@ class SearchRouteDelegate extends SearchDelegate<SearResult> {
               backgroundColor: colors[i % 3],
               icon: icons[i % 3],
               onPressed: (context) {
-                Set<Polyline> polylines = (i >= n)
-                    ? (setPolylines)
-                    : ({setPolylines.elementAt(i)});
+                Set<Polyline> polylines =
+                    (i >= n) ? (setPolylines) : ({setPolylines.elementAt(i)});
                 close(context,
                     SearResult(cancel: false, resultPolylines: polylines));
               });

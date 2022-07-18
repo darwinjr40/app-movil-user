@@ -8,7 +8,12 @@ import 'package:micros_user_app/data/models/models.dart';
 class BusService {
   final String _baseUrl = 'https://supportficct.ga/sig_backend/api/';
   final List<Bus> listaBus = [];
+  BusService() {
+    debugPrint('nise---');
+    loadBus1();
+  }
 
+  
   Future<Map<String, Set<Polyline>>?> loadBus() async {
     final url = (_baseUrl + 'bus/all');
     final resp = await http.get(Uri.parse(url));
@@ -147,6 +152,7 @@ class BusService {
       String key = '${data.bus.id}';
       routes.addAll({key: linea});
     }
+    debugPrint(listaBus.length.toString());
     return routes;
   }
 }
