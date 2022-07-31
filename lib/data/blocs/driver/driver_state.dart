@@ -9,7 +9,7 @@ class DriverState extends Equatable {
   const DriverState({
     required this.listaDrivers,
     required this.polylinesDrivers,
-    this.btnDriver = true,
+    this.btnDriver = false,
     this.busID = -1,
   });
 

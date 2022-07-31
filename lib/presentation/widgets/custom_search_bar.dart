@@ -41,12 +41,12 @@ class _CustomSearchBarBody extends StatelessWidget {
       final driverBloc = BlocProvider.of<DriverBloc>(context);
       driverBloc.add(OnBusIDEvent(busID: int.parse(lineasUnicas.keys.first)));
       driverBloc.add(const OnBtnDriverEvent(boton: true));
-      // driverBloc.state.copyWith(btnDriver: true);
+      debugPrint(driverBloc.state.btnDriver.toString() + "search");
+      debugPrint(driverBloc.state.busID.toString());
       searchBloc.add(OnUpdateRoutesSearchEvent(lineasUnicas));
       searchBloc.add(OnActivateLegendEvent());
       // await mapBloc.drawRouteMarker(polylines);
     }
-    
   }
 
   @override
@@ -63,8 +63,8 @@ class _CustomSearchBarBody extends StatelessWidget {
             onTap: () async {
               final result = await showSearch(
                   context: context, delegate: SearchRouteDelegate());
-              driverBloc.add(const OnBtnDriverEvent(boton: true));
-              debugPrint(driverState.btnDriver.toString());
+              // driverBloc.add(const OnBtnDriverEvent(boton: true));
+              // debugPrint(driverState.btnDriver.toString());
               if ((result == null) ||
                   (result.cancel) ||
                   (result.resultPolylines == null)) return;
