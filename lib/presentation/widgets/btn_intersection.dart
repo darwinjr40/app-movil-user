@@ -9,7 +9,6 @@ class BtnIntersection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final searchBloc = BlocProvider.of<SearchBloc>(context);
-    // final driverBloc = BlocProvider.of<DriverBloc>(context);
     return BlocBuilder<SearchBloc, SearchState>(
         builder: (context, searchState) {
       return BlocBuilder<DriverBloc, DriverState>(
@@ -31,6 +30,8 @@ class _BtnIntersectionBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final driverBloc = BlocProvider.of<DriverBloc>(context);
+    driverBloc.add(const OnBtnDriverEvent(boton:false));
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       child: CircleAvatar(
