@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:micros_user_app/data/models/models.dart';
+import 'package:micros_user_app/data/services/services.dart';
+
 
 class BusService {
-  final String _baseUrl = 'https://supportficct.ga/sig_backend/api/';
   final List<Bus> listaBus = [];
   BusService() {
     debugPrint('nise---');
@@ -15,7 +15,7 @@ class BusService {
 
   
   Future<Map<String, Set<Polyline>>?> loadBus() async {
-    final url = (_baseUrl + 'bus/all');
+    const url = (Env.baseUrl + 'bus/all');
     final resp = await http.get(Uri.parse(url));
     var decodedResp = json.decode(resp.body);
     Map<String, Set<Polyline>> routes;
@@ -99,7 +99,7 @@ class BusService {
   }
 
   Future<Map<String, Set<Polyline>>?> loadBus1() async {
-    final url = (_baseUrl + 'bus/all');
+    const url = (Env.baseUrl + 'bus/all');
     final resp = await http.get(Uri.parse(url));
     var decodedResp = json.decode(resp.body);
     final markerStart = Cap.customCapFromBitmap(

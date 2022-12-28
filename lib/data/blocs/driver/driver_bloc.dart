@@ -27,13 +27,13 @@ class DriverBloc extends Bloc<DriverEvent, DriverState> {
   void _onGetDriver(OnGetDriverEvent event, Emitter<DriverState> emit) async {
     debugPrint('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
     debugPrint(state.busID.toString());
-    final List<Drivers> newListDrivers =
-        await driverService.getDrivers(state.busID, event.latitud, event.longitud);
-    debugPrint(newListDrivers.length.toString());
-    emit(state.copyWith(listaDrivers: newListDrivers));
-    await Future.delayed(const Duration(milliseconds: 300));
     Set<Polyline> newPolylinesDrivers = {};
     LatLng newLatLng;
+    List<Drivers> newListDrivers = await driverService.getDrivers(state.busID, event.latitud, event.longitud);
+    debugPrint(newListDrivers.length.toString());
+
+    emit(state.copyWith(listaDrivers: newListDrivers));
+    await Future.delayed(const Duration(milliseconds: 300));    
     debugPrint(state.listaDrivers.length.toString());
     for (var driver in newListDrivers) {
       newLatLng = LatLng(driver.currentLat, driver.currentLong);
@@ -44,7 +44,6 @@ class DriverBloc extends Bloc<DriverEvent, DriverState> {
         ),
       );
     }
-
     emit(state.copyWith(polylinesDrivers: newPolylinesDrivers));
   }
 }

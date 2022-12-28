@@ -11,11 +11,9 @@ Future<BitmapDescriptor> getAssetImageMarker() async {
     const ImageConfiguration(
       devicePixelRatio: 2.5,
       // size: Size(200, 200)
-    ), 
-    
-    'assets/bus3.png'
-    // 'assets/bus1.png'
-    // 'assets/custom-pin.png'
+    ),   
+    'assets/icon_taxi.png'
+    // 'assets/bus3.png'
   );
 
 }

@@ -44,10 +44,9 @@ class _MapScreenState extends State<MapScreen> {
           }
           return BlocBuilder<MapBloc, MapState>(
             builder: (context, mapState) {
-              //   return BlocBuilder<DriverBloc, DriverState>(
-              // builder: (context, driverState) {
-              return SingleChildScrollView(
-                child: Stack(
+              // return SingleChildScrollView(
+              //   child: Stack(
+                  return Stack(
                   children: [
                     MapView(
                       initialLocation: locationState.lastKnownLocation!,
@@ -55,10 +54,19 @@ class _MapScreenState extends State<MapScreen> {
                       circles: _getCircles(mapState),
                       markers: mapState.markers.values.toSet(),
                     ),
-                    const CustomSearchBar(),
-                    const LegendListView(),
+                    SafeArea(
+                      child: Column(
+                        children: [
+                          _cardGooglePlaces(),
+                          Expanded(child: Container()),
+                          // const CustomSearchBar(),
+                          // const LegendListView(),
+                        ],
+                      )
+                    )
+                    
                   ],
-                ),
+                // ),
               );
             },
           );
@@ -85,5 +93,59 @@ class _MapScreenState extends State<MapScreen> {
       circles.removeWhere((element) => element.circleId.value == 'myRange');
     }
     return circles;
+  }
+
+  Widget _cardGooglePlaces() {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.9,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20)
+        ),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              Text(
+                'Desde',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 10
+                ),
+              ),
+              Text(
+                'CRF false',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold
+                ),
+                maxLines: 2,
+              ),
+              SizedBox(height: 5),
+              Divider(color: Colors.grey, height: 10),
+              SizedBox(height: 5),
+              Text(
+                'Hasta',
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 10
+                ),
+              ),
+              Text(
+                'NOse',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold
+                ),
+                maxLines: 2,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
