@@ -10,6 +10,7 @@ class MapView extends StatelessWidget {
   final Set<Circle> circles;
   final Set<Marker> markers;
 
+  //constructor
   const MapView({
     Key? key,
     required this.initialLocation,
@@ -17,16 +18,14 @@ class MapView extends StatelessWidget {
     required this.circles,
     required this.markers,
   }) : super(key: key);
-
+  //
   @override
   Widget build(BuildContext context) {
     final mapBloc = BlocProvider.of<MapBloc>(context);
-
     final CameraPosition initialCameraPosition = CameraPosition(
       target: initialLocation,
       zoom: 15,
     );
-
     final size = MediaQuery.of(context).size;
 
     return SizedBox(

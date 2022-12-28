@@ -7,7 +7,6 @@ import 'package:micros_user_app/presentation/views/views.dart';
 import 'package:micros_user_app/presentation/widgets/btn_show_range.dart';
 import 'package:micros_user_app/presentation/widgets/widgets.dart';
 
-
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
 
@@ -45,20 +44,15 @@ class _MapScreenState extends State<MapScreen> {
           }
           return BlocBuilder<MapBloc, MapState>(
             builder: (context, mapState) {
-            //   return BlocBuilder<DriverBloc, DriverState>(
-            // builder: (context, driverState) {
-              final circles = Set<Circle>.from(mapState.circles);
-              if (!mapState.showMyRange) {
-                circles.removeWhere(
-                    (element) => element.circleId.value == 'myRange');
-              }
+              //   return BlocBuilder<DriverBloc, DriverState>(
+              // builder: (context, driverState) {
               return SingleChildScrollView(
                 child: Stack(
                   children: [
                     MapView(
                       initialLocation: locationState.lastKnownLocation!,
                       polylines: mapState.polylines,
-                      circles: circles,
+                      circles: _getCircles(mapState),
                       markers: mapState.markers.values.toSet(),
                     ),
                     const CustomSearchBar(),
@@ -83,5 +77,13 @@ class _MapScreenState extends State<MapScreen> {
         ],
       ),
     );
+  }
+
+  Set<Circle> _getCircles(MapState mapState) {
+    final circles = Set<Circle>.from(mapState.circles);
+    if (!mapState.showMyRange) {
+      circles.removeWhere((element) => element.circleId.value == 'myRange');
+    }
+    return circles;
   }
 }

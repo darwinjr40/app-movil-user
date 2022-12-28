@@ -8,7 +8,7 @@ class DriverService extends ChangeNotifier {
   // final String _baseUrl = "supportficct.ga/sig_backend/public/api/";
 
   Future<List<Drivers>> getDrivers(int busID, double lat, double lon) async {
-
+    debugPrint("class DriverService:getDrivers($busID/$lat/$lon)");
     var resp = await http.get(Uri.parse(
         'https://supportficct.ga/sig_backend/public/api/drivers/nearbuses/$busID/$lat/$lon'));
     var jsonResp = jsonDecode(resp.body);
