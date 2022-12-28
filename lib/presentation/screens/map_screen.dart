@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:micros_user_app/data/blocs/blocs.dart';
 import 'package:micros_user_app/presentation/views/views.dart';
-import 'package:micros_user_app/presentation/widgets/btn_show_range.dart';
 import 'package:micros_user_app/presentation/widgets/widgets.dart';
 
 class MapScreen extends StatefulWidget {
@@ -59,12 +58,16 @@ class _MapScreenState extends State<MapScreen> {
                         children: [
                           _cardGooglePlaces(),
                           Expanded(child: Container()),
+                          _buttonRequest(),
                           // const CustomSearchBar(),
                           // const LegendListView(),
                         ],
                       )
-                    )
-                    
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: _iconMyLocation(),
+                    ),
                   ],
                 // ),
               );
@@ -145,6 +148,29 @@ class _MapScreenState extends State<MapScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _iconMyLocation() {
+    return Image.asset(
+      'assets/map_pin_blue.png',
+      width: 65,
+      height: 65,
+    );
+  }
+
+    Widget _buttonRequest() {
+    return Container(
+      height: 50,
+      width: 200,
+      alignment: Alignment.bottomCenter,
+      margin: const EdgeInsets.symmetric(horizontal: 60, vertical: 30),
+      child: BtnSolicit(
+        onPressed: () {},
+        text: 'SOLICITAR',
+        color: Colors.amber,
+        textColor: Colors.black,
       ),
     );
   }

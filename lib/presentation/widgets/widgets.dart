@@ -9,5 +9,7 @@ export 'package:micros_user_app/presentation/widgets/custom_search_bar.dart';
 export 'package:micros_user_app/presentation/widgets/legend_listview.dart';
 export 'package:micros_user_app/presentation/widgets/btn_intersection.dart';
 export 'package:micros_user_app/presentation/widgets/btn_show_intersection.dart';
+export 'package:micros_user_app/presentation/widgets/btn_solicit.dart';
+export 'package:micros_user_app/presentation/widgets/btn_show_range.dart';
 
 
