@@ -25,6 +25,12 @@ class AppRoutes {
       screen: const MapScreen(),
       icon: Icons.map_outlined,
     ),
+    MenuOption(
+      route: 'client/travel/info',
+      name: 'client Screen',
+      screen: const ClientTravelInfoPage(),
+      icon: Icons.map_outlined,
+    ),
   ];
 
   static Map<String, Widget Function(BuildContext)> getAppRoutes() {

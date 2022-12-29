@@ -171,7 +171,9 @@ class _MapScreenState extends State<MapScreen> {
       alignment: Alignment.bottomCenter,
       margin: const EdgeInsets.symmetric(horizontal: 60, vertical: 30),
       child: BtnSolicit(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, 'client/travel/info');
+        },
         text: 'SOLICITAR',
         color: Colors.amber,
         textColor: Colors.black,
