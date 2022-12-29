@@ -9,6 +9,7 @@ import 'package:micros_user_app/data/helpers/helpers.dart';
 import 'package:micros_user_app/presentation/themes/themes.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+
 part 'map_event.dart';
 part 'map_state.dart';
 
@@ -41,6 +42,13 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<OnUpdateMarkesEvent>(
         (event, emit) => emit(state.copyWith(markers: event.markersAux)));
 
+    on<UpdatePositionEvent>(((event, emit) => emit(state.copyWith(position: event.posicion))));
+    on<UpdateFromEvent>(((event, emit) => emit(state.copyWith(from: event.fromEvent))));
+    on<UpdateFromLatLngEvent>(((event, emit) => emit(state.copyWith(fromLatLng: event.fromLngEvent))));
+    on<UpdateToEvent>(((event, emit) => emit(state.copyWith(to: event.toEvent ))));
+    on<UpdateToLatLngEvent>(((event, emit) => emit(state.copyWith(toLatLng: event.toLngEvent))));
+    on<OnChangeIsFromSelectedEvent>(((event, emit) => emit(state.copyWith(isFromSelected: !state.isFromSelected))));
+    
     locationStateSubscription = locationBloc.stream.listen((locationState) {
       if (locationState.lastKnownLocation != null) {
         add(UpdateCirclesEvent(locationState.lastKnownLocation!));
@@ -126,4 +134,5 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     // await Future.delayed(const Duration(milliseconds: 300));
     // _mapController?.showMarkerInfoWindow(const MarkerId('start'));
   }
+  
 }

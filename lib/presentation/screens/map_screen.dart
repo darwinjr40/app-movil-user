@@ -33,6 +33,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<BusBloc>(context); //add
+    final mapBloc = BlocProvider.of<MapBloc>(context);    
     return Scaffold(
       body: BlocBuilder<LocationBloc, LocationState>(
         builder: (context, locationState) {
@@ -56,7 +57,8 @@ class _MapScreenState extends State<MapScreen> {
                     SafeArea(
                       child: Column(
                         children: [
-                          _cardGooglePlaces(),
+                          _cardGooglePlaces(mapState),
+                          _buttonChangeTo(mapBloc),
                           Expanded(child: Container()),
                           _buttonRequest(),
                           // const CustomSearchBar(),
@@ -98,7 +100,7 @@ class _MapScreenState extends State<MapScreen> {
     return circles;
   }
 
-  Widget _cardGooglePlaces() {
+  Widget _cardGooglePlaces(MapState mapState) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.9,
       child: Card(
@@ -109,8 +111,8 @@ class _MapScreenState extends State<MapScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Text(
+            children:  [
+              const Text(
                 'Desde',
                 style: TextStyle(
                   color: Colors.grey,
@@ -118,18 +120,19 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ),
               Text(
-                'CRF false',
-                style: TextStyle(
+                mapState.from ?? '...',
+                // 'CRF false',
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 14,
                   fontWeight: FontWeight.bold
                 ),
                 maxLines: 2,
               ),
-              SizedBox(height: 5),
-              Divider(color: Colors.grey, height: 10),
-              SizedBox(height: 5),
-              Text(
+              const SizedBox(height: 5),
+              const Divider(color: Colors.grey, height: 10),
+              const SizedBox(height: 5),
+              const Text(
                 'Hasta',
                 style: TextStyle(
                     color: Colors.grey,
@@ -137,8 +140,8 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ),
               Text(
-                'NOse',
-                style: TextStyle(
+                mapState.to ?? '...',
+                style: const TextStyle(
                     color: Colors.black,
                     fontSize: 14,
                     fontWeight: FontWeight.bold
@@ -155,12 +158,13 @@ class _MapScreenState extends State<MapScreen> {
   Widget _iconMyLocation() {
     return Image.asset(
       'assets/map_pin_blue.png',
-      width: 65,
-      height: 65,
+      // 'assets/bus3.png',
+      width: 25,
+      height: 25,
     );
   }
 
-    Widget _buttonRequest() {
+  Widget _buttonRequest() {
     return Container(
       height: 50,
       width: 200,
@@ -171,6 +175,29 @@ class _MapScreenState extends State<MapScreen> {
         text: 'SOLICITAR',
         color: Colors.amber,
         textColor: Colors.black,
+      ),
+    );
+  }
+
+  Widget _buttonChangeTo(MapBloc mapBloc) {
+    return GestureDetector(
+      onTap: () {mapBloc.add(OnChangeIsFromSelectedEvent());},
+      child: Container(
+        alignment: Alignment.centerRight,
+        margin: const EdgeInsets.symmetric(horizontal: 18),
+        child: Card(
+          shape: const CircleBorder(),
+          color: Colors.white,
+          elevation: 4.0,
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            child: Icon(
+              Icons.refresh,
+              color: Colors.grey[600],
+              size: 20,
+            ),
+          ),
+        ),
       ),
     );
   }

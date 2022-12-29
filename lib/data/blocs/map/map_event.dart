@@ -44,3 +44,31 @@ class OnDrawRouteMarkerEvent extends MapEvent {
 
   const OnDrawRouteMarkerEvent({required this.polylines});
 }
+
+class UpdatePositionEvent extends MapEvent {
+  final CameraPosition posicion;
+  const UpdatePositionEvent({required this.posicion});
+}
+
+class UpdateFromEvent extends MapEvent {
+  final String fromEvent;
+  const UpdateFromEvent({required this.fromEvent});
+}
+
+
+class UpdateFromLatLngEvent extends MapEvent {
+  final LatLng fromLngEvent;
+  const UpdateFromLatLngEvent({required this.fromLngEvent});
+}
+
+class UpdateToEvent extends MapEvent {
+  final String toEvent;
+  const UpdateToEvent({required this.toEvent});
+}
+
+class UpdateToLatLngEvent extends MapEvent {
+  final LatLng toLngEvent;
+  const UpdateToLatLngEvent({required this.toLngEvent});
+}
+
+class OnChangeIsFromSelectedEvent extends MapEvent {}

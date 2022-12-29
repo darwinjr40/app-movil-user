@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:micros_user_app/data/blocs/blocs.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:geocoder/geocoder.dart';
+import 'package:geocoding/geocoding.dart';
 
 class MapView extends StatelessWidget {
   final LatLng initialLocation;
@@ -45,11 +47,49 @@ class MapView extends StatelessWidget {
           circles: circles,
           onMapCreated: (controller) =>
               mapBloc.add(OnMapInitializedEvent(controller)),
+          onCameraMove: (position)  {
+            // _con.initialPosition = position;
+            mapBloc.add(UpdatePositionEvent(posicion: position));
+            debugPrint('ON CAMERA MOVE: $position');
+          },
+          onCameraIdle: () async{
+            debugPrint('Camera idle----------------------------------------');
+            debugPrint(mapBloc.state.from?? 'sigue null');
+            await setLocationDraggableInfo(mapBloc);
+          },
         ),
       ),
     );
   }
 
 
+  Future<Null> setLocationDraggableInfo(MapBloc mapBloc) async {
+    final pos = mapBloc.state.position;
+      double lat = pos.target.latitude;
+      double lng = pos.target.longitude;
+
+      List<Placemark> address = await placemarkFromCoordinates(lat, lng);
+
+      if (address.isNotEmpty) {
+          String direction = address[0].thoroughfare!;
+          String street = address[0].subThoroughfare!;
+          String city = address[0].locality!;
+          String department = address[0].administrativeArea!;
+          String country = address[0].country!;
+
+          if (mapBloc.state.isFromSelected) {
+            final from = '$direction #$street, $city, $department';
+            final fromLatLng = LatLng(lat, lng);
+            mapBloc.add(UpdateFromEvent(fromEvent: from));
+            mapBloc.add(UpdateFromLatLngEvent(fromLngEvent: fromLatLng));
+          } else {
+            final to = '$direction #$street, $city, $department';
+            final toLatLng = LatLng(lat, lng);
+            mapBloc.add(UpdateToEvent(toEvent: to));
+            mapBloc.add(UpdateToLatLngEvent(toLngEvent: toLatLng));
+          }
+      }
+  }
+  
   
 }
