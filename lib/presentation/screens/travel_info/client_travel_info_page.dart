@@ -27,7 +27,7 @@ class _ClientTravelInfoPageState extends State<ClientTravelInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold();
     return Scaffold(
       key: _con.key,
       body: Stack(
@@ -62,7 +62,7 @@ class _ClientTravelInfoPageState extends State<ClientTravelInfoPage> {
       height: MediaQuery.of(context).size.height * 0.38,
       decoration: BoxDecoration(
         color: Colors.grey[200],
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))
+        borderRadius: const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))
       ),
       child: Column(
         children:  [
