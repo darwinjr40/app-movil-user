@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:micros_user_app/data/blocs/blocs.dart';
 import 'package:micros_user_app/presentation/widgets/btn_solicit.dart';
 import 'package:micros_user_app/presentation/screens/screens.dart';
 
@@ -13,21 +15,20 @@ class ClientTravelInfoPage extends StatefulWidget {
 }
 
 class _ClientTravelInfoPageState extends State<ClientTravelInfoPage> {
-
   final ClientTravelInfoController _con =  ClientTravelInfoController();
-
+  late MapBloc mapBloc = BlocProvider.of<MapBloc>(context);
+  
   @override
   void initState() {
-    super.initState();
-    // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-    //   _con.init(context, refresh);
-    // });
+    super.initState();    
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) { //iniciar controllador
+      _con.init(context, refresh);
+    });
 
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
     return Scaffold(
       key: _con.key,
       body: Stack(
@@ -45,11 +46,13 @@ class _ClientTravelInfoPageState extends State<ClientTravelInfoPage> {
             alignment: Alignment.topLeft,
           ),
           Align(
-            child: _cardKmInfo('0 Km'),
+            child: _cardKmInfo(_con.km),
+            // child: _cardKmInfo('0 Km'),
             alignment: Alignment.topRight,
           ),
           Align(
-            child: _cardMinInfo('0 Min'),
+            child: _cardMinInfo(_con.min),
+            // child: _cardMinInfo('0 Min'),
             alignment: Alignment.topRight,
           )
         ],
@@ -66,55 +69,58 @@ class _ClientTravelInfoPageState extends State<ClientTravelInfoPage> {
       ),
       child: Column(
         children:  [
-          const ListTile(
-            title: Text(
+           ListTile(
+            title: const Text(
               'Desde',
               style: TextStyle(
                 fontSize: 15
               ),
             ),
             subtitle: Text(
-              'Cr falsa con calle falsa',
-              style: TextStyle(
+              mapBloc.state.from ?? '...',
+              // 'Cr falsa con calle falsa',
+              style: const TextStyle(
                 fontSize: 13
               ),
             ),
-            leading: Icon(Icons.location_on),
+            leading: const Icon(Icons.location_on),
           ),
-          const ListTile(
-            title: Text(
+           ListTile(
+            title: const Text(
               'Hasta',
               style: TextStyle(
                   fontSize: 15
               ),
             ),
             subtitle: Text(
-              'Cr falsa con calle falsa',
-              style: TextStyle(
+              mapBloc.state.to ?? '...',
+              // 'Cr falsa con calle falsa',
+              style: const TextStyle(
                   fontSize: 13
               ),
             ),
-            leading: Icon(Icons.my_location),
+            leading: const Icon(Icons.my_location),
           ),
-          const ListTile(
-            title: Text(
+          ListTile(
+            title: const Text(
               'Precio',
               style: TextStyle(
                   fontSize: 15
               ),
             ),
             subtitle: Text(
-              '0.0\$',
-              style: TextStyle(
+              '${_con.minTotal.toStringAsFixed(2)}Bs - ${_con.maxTotal.toStringAsFixed(2)}Bs',              
+              // '0.0\$',
+              style: const TextStyle(
                   fontSize: 13
               ),
             ),
-            leading: Icon(Icons.attach_money),
+            leading: const Icon(Icons.attach_money),
           ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 30),
             child: BtnSolicit(
-              onPressed: () {},
+              onPressed: _con.goToRequest,
               text: 'CONFIRMAR',
               textColor: Colors.black,
               color: Colors.amber,
@@ -128,30 +134,30 @@ class _ClientTravelInfoPageState extends State<ClientTravelInfoPage> {
   Widget _cardKmInfo(String km) {
     return SafeArea(
         child: Container(
-          width: 100,
+          width: 110,
           padding: const EdgeInsets.symmetric(horizontal: 30),
           margin: const EdgeInsets.only(right: 10, top: 10),
           decoration: const BoxDecoration(
             color: Colors.amber,
             borderRadius: BorderRadius.all(Radius.circular(20))
           ),
-          child: Text(km),
+          child: Text(km, maxLines: 1),
           // child: Text(km ?? '0 Km'),
         )
     );
   }
-
+  
   Widget _cardMinInfo(String min) {
     return SafeArea(
         child: Container(
-          width: 100,
+          width: 110,
           padding: const EdgeInsets.symmetric(horizontal: 30),
           margin: const EdgeInsets.only(right: 10, top: 35),
           decoration: const BoxDecoration(
             color: Colors.yellow,
             borderRadius: BorderRadius.all(Radius.circular(20))
           ),
-          child: Text(min),
+          child: Text(min, maxLines: 1),
           // child: Text(min ?? '0 Min'),
         )
     );
@@ -178,6 +184,7 @@ class _ClientTravelInfoPageState extends State<ClientTravelInfoPage> {
       myLocationEnabled: false,
       myLocationButtonEnabled: false,
       markers: Set<Marker>.of(_con.markers.values),
+      polylines: _con.polylines,
     );
   }
 

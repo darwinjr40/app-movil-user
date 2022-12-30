@@ -63,7 +63,7 @@ class MapView extends StatelessWidget {
   }
 
 
-  Future<Null> setLocationDraggableInfo(MapBloc mapBloc) async {
+  Future<void> setLocationDraggableInfo(MapBloc mapBloc) async {
     final pos = mapBloc.state.position;
       double lat = pos.target.latitude;
       double lng = pos.target.longitude;
@@ -75,7 +75,7 @@ class MapView extends StatelessWidget {
           String street = address[0].subThoroughfare!;
           String city = address[0].locality!;
           String department = address[0].administrativeArea!;
-          String country = address[0].country!;
+          // String country = address[0].country!;
 
           if (mapBloc.state.isFromSelected) {
             final from = '$direction #$street, $city, $department';

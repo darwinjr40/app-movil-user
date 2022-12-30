@@ -14,6 +14,7 @@ class DriverBloc extends Bloc<DriverEvent, DriverState> {
   DriverBloc({required this.driverService})
       : super(const DriverState(listaDrivers: [], polylinesDrivers: {})) {
     on<DriverEvent>((event, emit) {
+      // ignore: todo
       // TODO: implement event handler
     });
 

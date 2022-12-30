@@ -55,7 +55,7 @@ class BtnSolicit extends StatelessWidget {
                   icon,
                   color: const Color(0xFF222327),
                 ),
-                backgroundColor: Colors.white,
+                backgroundColor: Colors.black,
               ),
             ),
           )

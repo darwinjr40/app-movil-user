@@ -12,7 +12,7 @@ Future<BitmapDescriptor> getAssetImageMarker() async {
       devicePixelRatio: 2.5,
       // size: Size(200, 200)
     ),   
-    'assets/icon_taxi.png'
+    'assets/img/icon_taxi.png'
     // 'assets/bus3.png'
   );
 

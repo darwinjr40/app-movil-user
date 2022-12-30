@@ -7,3 +7,5 @@ export 'package:micros_user_app/presentation/screens/message_screen.dart';
 
 export 'package:micros_user_app/presentation/screens/travel_info/client_travel_info_page.dart';
 export 'package:micros_user_app/presentation/screens/travel_info/client_travel_info_controller.dart';
+export 'package:micros_user_app/presentation/screens/travel_request/client_travel_request_controller.dart';
+export 'package:micros_user_app/presentation/screens/travel_request/client_travel_request_page.dart';

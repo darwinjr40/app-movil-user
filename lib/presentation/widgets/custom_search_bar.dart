@@ -51,7 +51,7 @@ class _CustomSearchBarBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final driverBloc = BlocProvider.of<DriverBloc>(context);
+    // final driverBloc = BlocProvider.of<DriverBloc>(context);
     return BlocBuilder<DriverBloc, DriverState>(
         builder: (context, driverState) {
       return SafeArea(

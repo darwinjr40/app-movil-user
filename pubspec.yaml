@@ -18,7 +18,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.16.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -40,13 +40,17 @@ dependencies:
   google_maps_flutter: ^2.1.5
   http: ^0.13.4
   permission_handler: ^9.2.0
+  # progress_dialog: ^1.2.4
   provider: ^6.0.2
+  shared_preferences: ^2.0.15
 dev_dependencies:
+  flutter_custom_clippers: ^2.1.0
   flutter_lints: ^1.0.0
+  flutter_polyline_points: ^1.0.0
   flutter_test:
     sdk: flutter
-  # geocoder: ^0.2.1
   geocoding: ^2.0.5
+  lottie: ^1.4.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -58,7 +62,8 @@ flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/
+    - assets/img/
+    - assets/json/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

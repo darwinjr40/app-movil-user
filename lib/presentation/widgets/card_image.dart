@@ -41,8 +41,8 @@ class _BackGroundImage extends StatelessWidget {
         //   color: Colors.transparent,
         // ),
         child: FadeInImage(
-          placeholder: AssetImage('assets/jar-loading.gif'),
-          image: AssetImage('assets/micro.png'),
+          placeholder: AssetImage('assets/img/jar-loading.gif'),
+          image: AssetImage('assets/img/micro.png'),
           fit: BoxFit.cover,
         ),
       ),

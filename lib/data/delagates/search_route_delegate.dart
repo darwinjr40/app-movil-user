@@ -87,7 +87,7 @@ class SearchRouteDelegate extends SearchDelegate<SearResult> {
         leading: Hero(
           tag: index,
           child:  FadeInImage(
-            placeholder: const AssetImage('assets/no-image.jpg'),
+            placeholder: const AssetImage('assets/img/no-image.jpg'),
             // image: const NetworkImage('https://picsum.photos/250?image=9'),
             image: NetworkImage(buses[index].photo),
             width: 100,

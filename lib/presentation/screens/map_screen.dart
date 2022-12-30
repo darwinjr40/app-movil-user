@@ -1,3 +1,5 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:micros_user_app/data/blocs/blocs.dart';
 import 'package:micros_user_app/presentation/views/views.dart';
 import 'package:micros_user_app/presentation/widgets/widgets.dart';
+import 'package:micros_user_app/presentation/utils/utils.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -15,11 +18,17 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   late LocationBloc locationBloc;
+  late MapBloc mapBloc;
+
 
   @override
   void initState() {
     super.initState();
     locationBloc = BlocProvider.of<LocationBloc>(context);
+    mapBloc = BlocProvider.of<MapBloc>(context);
+    BlocProvider.of<BusBloc>(context); //add
+
+
     // locationBloc.getCurrentPosition();
     locationBloc.startFollowingUser();
   }
@@ -31,9 +40,7 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    BlocProvider.of<BusBloc>(context); //add
-    final mapBloc = BlocProvider.of<MapBloc>(context);    
+  Widget build(BuildContext context) {    
     return Scaffold(
       body: BlocBuilder<LocationBloc, LocationState>(
         builder: (context, locationState) {
@@ -46,31 +53,30 @@ class _MapScreenState extends State<MapScreen> {
             builder: (context, mapState) {
               // return SingleChildScrollView(
               //   child: Stack(
-                  return Stack(
-                  children: [
-                    MapView(
-                      initialLocation: locationState.lastKnownLocation!,
-                      polylines: mapState.polylines,
-                      circles: _getCircles(mapState),
-                      markers: mapState.markers.values.toSet(),
-                    ),
-                    SafeArea(
+              return Stack(
+                children: [
+                  MapView(
+                    initialLocation: locationState.lastKnownLocation!,
+                    polylines: mapState.polylines,
+                    circles: _getCircles(mapState),
+                    markers: mapState.markers.values.toSet(),
+                  ),
+                  SafeArea(
                       child: Column(
-                        children: [
-                          _cardGooglePlaces(mapState),
-                          _buttonChangeTo(mapBloc),
-                          Expanded(child: Container()),
-                          _buttonRequest(),
-                          // const CustomSearchBar(),
-                          // const LegendListView(),
-                        ],
-                      )
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: _iconMyLocation(),
-                    ),
-                  ],
+                    children: [
+                      _cardGooglePlaces(mapState),
+                      _buttonChangeTo(mapBloc),
+                      Expanded(child: Container()),
+                      _buttonRequest(),
+                      // const CustomSearchBar(),
+                      // const LegendListView(),
+                    ],
+                  )),
+                  Align(
+                    alignment: Alignment.center,
+                    child: _iconMyLocation(),
+                  ),
+                ],
                 // ),
               );
             },
@@ -81,9 +87,9 @@ class _MapScreenState extends State<MapScreen> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: const [
-          BtnshowBusIntersection(),
-          BtnShowIntersection(),
-          BtnIntersection(),
+          // BtnshowBusIntersection(),
+          // BtnShowIntersection(),
+          // BtnIntersection(),
           BtnShowRange(),
           BtnFollowUser(),
           BtnCurrentLocation(),
@@ -104,29 +110,23 @@ class _MapScreenState extends State<MapScreen> {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.9,
       child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20)
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children:  [
+            children: [
               const Text(
                 'Desde',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 10
-                ),
+                style: TextStyle(color: Colors.grey, fontSize: 10),
               ),
               Text(
                 mapState.from ?? '...',
                 // 'CRF false',
                 style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold
-                ),
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold),
                 maxLines: 2,
               ),
               const SizedBox(height: 5),
@@ -134,18 +134,14 @@ class _MapScreenState extends State<MapScreen> {
               const SizedBox(height: 5),
               const Text(
                 'Hasta',
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 10
-                ),
+                style: TextStyle(color: Colors.grey, fontSize: 10),
               ),
               Text(
                 mapState.to ?? '...',
                 style: const TextStyle(
                     color: Colors.black,
                     fontSize: 14,
-                    fontWeight: FontWeight.bold
-                ),
+                    fontWeight: FontWeight.bold),
                 maxLines: 2,
               ),
             ],
@@ -157,7 +153,7 @@ class _MapScreenState extends State<MapScreen> {
 
   Widget _iconMyLocation() {
     return Image.asset(
-      'assets/map_pin_blue.png',
+      'assets/img/my_location.png',
       // 'assets/bus3.png',
       width: 25,
       height: 25,
@@ -171,9 +167,7 @@ class _MapScreenState extends State<MapScreen> {
       alignment: Alignment.bottomCenter,
       margin: const EdgeInsets.symmetric(horizontal: 60, vertical: 30),
       child: BtnSolicit(
-        onPressed: () {
-          Navigator.pushNamed(context, 'client/travel/info');
-        },
+        onPressed: requestDriver,
         text: 'SOLICITAR',
         color: Colors.amber,
         textColor: Colors.black,
@@ -181,9 +175,18 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
+  void requestDriver() {
+    final mapBloc = BlocProvider.of<MapBloc>(context);
+    if (mapBloc.state.toLatLng == null || mapBloc.state.fromLatLng == null) {
+      Snackbar.showSnackbar(context, 'Seleccionar el lugar de recogida y destino');
+    } else {
+      Navigator.pushNamed(context, 'client/travel/info');
+    }
+  }
+
   Widget _buttonChangeTo(MapBloc mapBloc) {
     return GestureDetector(
-      onTap: () {mapBloc.add(OnChangeIsFromSelectedEvent());},
+      onTap: _changeFromTo,
       child: Container(
         alignment: Alignment.centerRight,
         margin: const EdgeInsets.symmetric(horizontal: 18),
@@ -202,5 +205,17 @@ class _MapScreenState extends State<MapScreen> {
         ),
       ),
     );
+  }
+
+  void _changeFromTo()async {
+    final String message;
+    mapBloc.add(OnChangeIsFromSelectedEvent());
+    await Future.delayed(const Duration(milliseconds: 300));    
+    if (mapBloc.state.isFromSelected) {
+      message = 'SELECCIONA EL ORIGEN';
+    } else {
+      message = 'SELECCIONA EL DESTINO';
+    }
+    Snackbar.showSnackbar(context, message);
   }
 }
