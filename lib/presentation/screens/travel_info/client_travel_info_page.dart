@@ -25,6 +25,7 @@ class _ClientTravelInfoPageState extends State<ClientTravelInfoPage> {
       _con.init(context, refresh);
     });
 
+    
   }
 
   @override

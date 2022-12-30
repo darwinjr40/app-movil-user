@@ -23,4 +23,20 @@ class DriverService extends ChangeNotifier {
     debugPrint(listaDriver.length.toString());
     return listaDriver;
   }
+
+  Future<List<Drivers>> getNearbyDrivers( double lat, double lon, {double radius = 0.00785750092012667}) async {
+    debugPrint("class DriverService:getNearbyDrivers($radius/$lat/$lon)");
+    List<Drivers> listaDriver = [];
+    final url = baseUrl + 'drivers/nearby/$lat/$lon/$radius';
+    var resp = await http.get(Uri.parse(url));
+    var jsonResp = jsonDecode(resp.body);
+    listaDriver = jsonResp;
+    // for (var item in jsonResp) {
+    //   Drivers driver = Drivers.fromMap(item);
+    //   listaDriver.add(driver);
+    // }
+    debugPrint('LISTA CoN DRIVERS');
+    debugPrint(listaDriver.length.toString());
+    return listaDriver;
+  }
 }
