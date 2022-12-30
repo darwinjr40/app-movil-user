@@ -20,13 +20,14 @@ class TravelInfoService {
       final resp = await http.post(
         Uri.parse(url),
         headers: {'Accept' : 'application/json'},
-        body: travelInfo.toJson(),
+        body: travelInfo.toMap(),
       );
       // final Map<String, dynamic> decodedResp = json.decode(resp.body);
       if (resp.statusCode != 200) {
         debugPrint(resp.body);
       }            
     } catch(error) {
+      debugPrint(error.toString());
       return Future.error(error.toString());
     }
 

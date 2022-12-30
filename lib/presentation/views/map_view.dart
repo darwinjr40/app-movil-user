@@ -67,28 +67,32 @@ class MapView extends StatelessWidget {
     final pos = mapBloc.state.position;
       double lat = pos.target.latitude;
       double lng = pos.target.longitude;
+      try {
+        List<Placemark> address = await placemarkFromCoordinates(lat, lng);
 
-      List<Placemark> address = await placemarkFromCoordinates(lat, lng);
+        if (address.isNotEmpty) {
+            String direction = address[0].thoroughfare!;
+            String street = address[0].subThoroughfare!;
+            String city = address[0].locality!;
+            String department = address[0].administrativeArea!;
+            // String country = address[0].country!;
 
-      if (address.isNotEmpty) {
-          String direction = address[0].thoroughfare!;
-          String street = address[0].subThoroughfare!;
-          String city = address[0].locality!;
-          String department = address[0].administrativeArea!;
-          // String country = address[0].country!;
-
-          if (mapBloc.state.isFromSelected) {
-            final from = '$direction #$street, $city, $department';
-            final fromLatLng = LatLng(lat, lng);
-            mapBloc.add(UpdateFromEvent(fromEvent: from));
-            mapBloc.add(UpdateFromLatLngEvent(fromLngEvent: fromLatLng));
-          } else {
-            final to = '$direction #$street, $city, $department';
-            final toLatLng = LatLng(lat, lng);
-            mapBloc.add(UpdateToEvent(toEvent: to));
-            mapBloc.add(UpdateToLatLngEvent(toLngEvent: toLatLng));
-          }
+            if (mapBloc.state.isFromSelected) {
+              final from = '$direction #$street, $city, $department';
+              final fromLatLng = LatLng(lat, lng);
+              mapBloc.add(UpdateFromEvent(fromEvent: from));
+              mapBloc.add(UpdateFromLatLngEvent(fromLngEvent: fromLatLng));
+            } else {
+              final to = '$direction #$street, $city, $department';
+              final toLatLng = LatLng(lat, lng);
+              mapBloc.add(UpdateToEvent(toEvent: to));
+              mapBloc.add(UpdateToLatLngEvent(toLngEvent: toLatLng));
+            }
+        }
+      } catch (e) {
+        debugPrint(e.toString());
       }
+      
   }
   
   
