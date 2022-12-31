@@ -101,24 +101,25 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     return super.close();
   }
 
-  void _onDrawRouteMarker(
-      OnDrawRouteMarkerEvent event, Emitter<MapState> emit) async {
+  void _onDrawRouteMarker(OnDrawRouteMarkerEvent event, Emitter<MapState> emit) async {
     Marker starMarker;
     Map<String, Marker> currentMarkers = {};
-    // Map<String, Marker>.from(state.markers);
-    BitmapDescriptor initMarker = await getAssetImageMarker();
-    for (Polyline polyline in event.polylines) {
-      //Custom markers
+    BitmapDescriptor iconMarker = await getAssetImageMarker('assets/img/icon_taxi.png');
+    for (Polyline polyline in event.polylines) {      
       starMarker = Marker(
         markerId: MarkerId('${polyline.polylineId.value}start'),
         position: polyline.points[0],
-        icon: initMarker,
+        icon: iconMarker,
         infoWindow: InfoWindow(
-          title: 'linea: ${polyline.polylineId.value}',
+          title: 'movil ${polyline.polylineId.value}: DISPONIBLE',
           snippet: 'placa: MON-675',
         ),
+        flat: true,
+        // anchor: const Offset(1, 1),
       );
       currentMarkers['${polyline.polylineId.value}start'] = starMarker;
+    }
+    add(OnUpdateMarkesEvent(currentMarkers));
 
       // endMarker = Marker(
       //     markerId: MarkerId('${polyline.polylineId.value}end'),
@@ -128,9 +129,6 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       //       snippet: '!Este es el punto Final de mi ruta',
       //     ));
       // currentMarkers['${polyline.polylineId.value}end'] = endMarker;
-    }
-    add(OnUpdateMarkesEvent(currentMarkers));
-
     // await Future.delayed(const Duration(milliseconds: 300));
     // _mapController?.showMarkerInfoWindow(const MarkerId('start'));
   }

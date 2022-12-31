@@ -29,3 +29,10 @@ class OnBusIDEvent extends DriverEvent {
   final int busID;
   const OnBusIDEvent({required this.busID});
 }
+
+class OnStartFollowingDriversEvent extends DriverEvent {}
+
+class OnUpdateListaDriversEvent extends DriverEvent {
+  final List<Drivers> driversAux;
+  const OnUpdateListaDriversEvent({required this.driversAux});
+}

@@ -48,13 +48,9 @@ class MapView extends StatelessWidget {
           onMapCreated: (controller) =>
               mapBloc.add(OnMapInitializedEvent(controller)),
           onCameraMove: (position)  {
-            // _con.initialPosition = position;
             mapBloc.add(UpdatePositionEvent(posicion: position));
-            debugPrint('ON CAMERA MOVE: $position');
           },
           onCameraIdle: () async{
-            debugPrint('Camera idle----------------------------------------');
-            debugPrint(mapBloc.state.from?? 'sigue null');
             await setLocationDraggableInfo(mapBloc);
           },
         ),

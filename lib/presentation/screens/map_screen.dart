@@ -19,6 +19,7 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   late LocationBloc locationBloc;
   late MapBloc mapBloc;
+  late DriverBloc driverBloc;
 
 
   @override
@@ -27,10 +28,12 @@ class _MapScreenState extends State<MapScreen> {
     locationBloc = BlocProvider.of<LocationBloc>(context);
     mapBloc = BlocProvider.of<MapBloc>(context);
     BlocProvider.of<BusBloc>(context); //add
-
-
+    driverBloc = BlocProvider.of<DriverBloc>(context);
+    
+    // driverBloc
     // locationBloc.getCurrentPosition();
-    locationBloc.startFollowingUser();
+    locationBloc.startFollowingUser();  
+    driverBloc.startFollowingDrivers(mapBloc, driverBloc, locationBloc);
   }
 
   @override

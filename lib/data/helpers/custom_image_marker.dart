@@ -5,17 +5,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' show BitmapDescriptor;
 
-Future<BitmapDescriptor> getAssetImageMarker() async {
-
-  return BitmapDescriptor.fromAssetImage(
-    const ImageConfiguration(
-      devicePixelRatio: 2.5,
-      // size: Size(200, 200)
-    ),   
-    'assets/img/icon_taxi.png'
-    // 'assets/bus3.png'
+Future<BitmapDescriptor> getAssetImageMarker(String path) async {
+  const config = ImageConfiguration(
+    devicePixelRatio: 2.5,
+    // size: Size(200, 200)
   );
-
+  final bitm = await BitmapDescriptor.fromAssetImage(config, path);
+  return bitm;
+    // 'assets/bus3.png'
 }
 
 // Future<BitmapDescriptor> getNetworkImageMarker() async {

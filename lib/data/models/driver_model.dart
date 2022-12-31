@@ -1,9 +1,25 @@
-// To parse this JSON data, do
-//
-//     final drivers = driversFromMap(jsonString);
 
 import 'dart:convert';
 
+// class Travel {
+//     Travel({
+//         required this.data,
+//     });
+
+//     List<Drivers> data;
+
+//     factory Travel.fromJson(String str) => Travel.fromMap(json.decode(str));
+
+//     String toJson() => json.encode(toMap());
+
+//     factory Travel.fromMap(Map<String, dynamic> json) => Travel(
+//         data: List<Drivers>.from(json["data"].map((x) => Drivers.fromMap(x))),
+//     );
+
+//     Map<String, dynamic> toMap() => {
+//         "data": List<dynamic>.from(data.map((x) => x.toMap())),
+//     };
+// }
 
 class Drivers {
   Drivers({
