@@ -11,7 +11,7 @@ class BusService {
   final List<Bus> listaBus = [];
   
   BusService() {
-    debugPrint('nise---');
+    // debugPrint('nise---');
     // loadBus1();
   }
 

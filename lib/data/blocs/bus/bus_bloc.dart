@@ -22,13 +22,13 @@ class BusBloc extends Bloc<BusEvent, BusState> {
   }
 
   void _init() async {
-    debugPrint('iniciando------------------------------');
-    final varRoutes = await BusService().loadBus1();
-    if (varRoutes != null) {
-      add(OnBusInitializedEvent(varRoutes));
-      // add(const OnBusInitializedEvent);
-      // emit(state.copyWith(routes: varRoutes));
-    }
+    // debugPrint('iniciando------------------------------');
+    // final varRoutes = await BusService().loadBus1();
+    // if (varRoutes != null) {
+    //   add(OnBusInitializedEvent(varRoutes));
+    //   // add(const OnBusInitializedEvent);
+    //   // emit(state.copyWith(routes: varRoutes));
+    // }
   }
 
   _onUpdateRoutes(OnUpdateRoutesEvent event, Emitter<BusState> emit) async {
