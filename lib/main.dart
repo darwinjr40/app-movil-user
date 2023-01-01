@@ -44,9 +44,14 @@ void main() {
 
 // * El tema de la app lo puse estatico con Light, si alguin quiere se da el tiempo y hace un personalizado
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
