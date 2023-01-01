@@ -4,8 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:micros_user_app/data/blocs/blocs.dart';
 import 'package:micros_user_app/business/router/app_routes.dart';
 import 'package:micros_user_app/data/services/services.dart';
+// import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future<void> main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+  
   runApp(
     // ! Declaro los Bloc que se pueden usar en toda la app
     MultiBlocProvider(
