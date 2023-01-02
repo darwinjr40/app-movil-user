@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:micros_user_app/data/blocs/blocs.dart';
 import 'package:micros_user_app/business/router/app_routes.dart';
 import 'package:micros_user_app/data/services/services.dart';
-// import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
+  await PushNotificationService.initializeApp();
   
   runApp(
     // ! Declaro los Bloc que se pueden usar en toda la app
@@ -56,6 +56,22 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final GlobalKey<NavigatorState> navigatorKey =  GlobalKey<NavigatorState>();
+  final GlobalKey<ScaffoldMessengerState> messengerKey =  GlobalKey<ScaffoldMessengerState>();
+  @override
+  void initState() {
+    super.initState();
+  // Context!
+      PushNotificationService.messagesStream.listen((message) { 
+
+        // print('MyApp: $message');
+        navigatorKey.currentState?.pushNamed('message', arguments: message);
+        
+        final snackBar = SnackBar(content: Text(message));
+        messengerKey.currentState?.showSnackBar(snackBar);
+      }); 
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -65,7 +81,8 @@ class _MyAppState extends State<MyApp> {
       routes: AppRoutes.getAppRoutes(),
       onGenerateRoute: AppRoutes.onGenerateRoute,
       theme: ThemeData.light(),
-      scaffoldMessengerKey: NotificationsService.messengerKey,
+      scaffoldMessengerKey: messengerKey, // Snacks
+      navigatorKey: navigatorKey, // Navegar
     );
   }
 }

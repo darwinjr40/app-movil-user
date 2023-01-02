@@ -16,7 +16,7 @@ class ClientTravelRequestController {
   
   late TravelInfoService _travelInfoService;
   // late DriverService _driverService;
-  late StreamSubscription<List<Drivers>> _streamSubscription;
+  late StreamSubscription<List<Driver>> _streamSubscription;
 
   List<String> nearbyDrivers = [];
 
@@ -54,9 +54,12 @@ class ClientTravelRequestController {
     //   }
     // });
     final drivers = driverBloc.state.listaDrivers;
-    final driversString = drivers.map((Drivers e) => e.id.toString());
+    final driversString = drivers.map((Driver e) => e.id.toString());
     nearbyDrivers = List<String>.of(driversString);
-    debugPrint(nearbyDrivers.length.toString()+ '--------------------------');
+    debugPrint('${nearbyDrivers.length}--------------------------');
+    getDriverInfo(nearbyDrivers[0]);
+    // getDriverInfo("");
+    // _streamSubscription.cancel();
   }
   void _createTravelInfo() async {
     TravelInfo travelInfo =  TravelInfo(
@@ -69,7 +72,25 @@ class ClientTravelRequestController {
       toLng: mapBloc.state.toLatLng!.longitude,
       status: 'created'
     );
-
     await _travelInfoService.create(travelInfo);
+  }
+
+  Future<void> getDriverInfo(String idDriver) async {
+    // Driver driver = await _driverProvider.getById(idDriver);
+    // _sendNotification(driver.token);
+    _sendNotification('dlUKq-YKS6aIlEBxFw3CZj:APA91bFQaEqd2njs25yqTdG0_ZYLeAw69BT_EFlP5uOgUkPpZKs5P56LFrP8Mo3ghDzrS2uAyy9OkvLX8xdwoshCcRtrHYvG366HCmv2SPEYDvBbxZHW3l9XUGL_mftjqu_gnw4tLvxb');
+  }
+
+  void _sendNotification(String token) {
+    print('TOKEN: $token');
+
+    // Map<String, dynamic> data = {
+    //   'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+    //   'idClient': _authProvider.getUser().uid,
+    //   'origin': from,
+    //   'destination': to,
+    // };
+    // _pushNotificationsProvider.sendMessage(token, data, 'Solicitud de servicio', 'Un cliente esta solicitando viaje');
+    PushNotificationService.sendMessage(token, {'a':'e'}, 'Solicitud de servicio1', 'Un cliente esta solicitando viaje1');
   }
 }

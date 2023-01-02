@@ -23,12 +23,12 @@ class BtnSolicit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
+    return ElevatedButton(
       onPressed: () {
         onPressed!();
       },
-      color: color,
-      textColor: textColor,
+      // color: color,
+      // textColor: textColor,
       child: Stack(
         children: [
           Align(
@@ -61,9 +61,9 @@ class BtnSolicit extends StatelessWidget {
           )
         ],
       ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15)
-      ),
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.circular(15)
+      // ),
     );
   }
 }

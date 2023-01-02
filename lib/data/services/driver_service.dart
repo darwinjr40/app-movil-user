@@ -8,15 +8,15 @@ import 'package:micros_user_app/env.dart';
 
 class DriverService extends ChangeNotifier {
 
-  Future<List<Drivers>> getDrivers(int busID, double lat, double lon) async {
+  Future<List<Driver>> getDrivers(int busID, double lat, double lon) async {
     debugPrint("class DriverService:getDrivers($busID/$lat/$lon)");
-    List<Drivers> listaDriver = [];
-    final url = baseUrl + 'drivers/nearbuses/$busID/$lat/$lon';
+    List<Driver> listaDriver = [];
+    final url = '${baseUrl}drivers/nearbuses/$busID/$lat/$lon';
     var resp = await http.get(Uri.parse(url));
     var jsonResp = jsonDecode(resp.body);
     
     for (var item in jsonResp) {
-      Drivers driver = Drivers.fromMap(item);
+      Driver driver = Driver.fromMap(item);
       listaDriver.add(driver);
     }
     debugPrint('LISTA CoN DRIVERS');
@@ -24,17 +24,17 @@ class DriverService extends ChangeNotifier {
     return listaDriver;
   }
 
-  Future<List<Drivers>> getNearbyDrivers( double lat, double lon, {double radius = 0.00785750092012667}) async {
+  Future<List<Driver>> getNearbyDrivers( double lat, double lon, {double radius = 0.00785750092012667}) async {
     debugPrint("Debug class DriverService:getNearbyDrivers($radius/$lat/$lon)");
-    List<Drivers> listaDriver = [];
+    List<Driver> listaDriver = [];
     try {
-      final url = baseUrl + 'drivers/nearby/$lat/$lon/$radius';
+      final url = '${baseUrl}drivers/nearby/$lat/$lon/$radius';
       var resp = await http.get(Uri.parse(url));
       var jsonResp = jsonDecode(resp.body);
-      listaDriver = List<Drivers>.from(jsonResp.map((x) => Drivers.fromMap(x)));
-      debugPrint('LISTA DE DRIVERS: ' + listaDriver.length.toString());
+      listaDriver = List<Driver>.from(jsonResp.map((x) => Driver.fromMap(x)));
+      debugPrint('LISTA DE DRIVERS: ${listaDriver.length}');
     } catch (e) {
-      debugPrint('DriverService: getNearbyDrivers: ' + e.toString());
+      debugPrint('DriverService: getNearbyDrivers: $e');
     }    
     return listaDriver;    
   }

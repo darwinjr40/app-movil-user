@@ -43,7 +43,7 @@ class DriverBloc extends Bloc<DriverEvent, DriverState> {
     debugPrint(state.busID.toString());
     Set<Polyline> newPolylinesDrivers = {};
     LatLng newLatLng;
-    List<Drivers> newListDrivers = await driverService.getDrivers(state.busID, event.latitud, event.longitud);
+    List<Driver> newListDrivers = await driverService.getDrivers(state.busID, event.latitud, event.longitud);
     debugPrint(newListDrivers.length.toString());
 
     emit(state.copyWith(listaDrivers: newListDrivers));
@@ -64,7 +64,7 @@ class DriverBloc extends Bloc<DriverEvent, DriverState> {
 
   void startFollowingDrivers(MapBloc mapBloc, DriverBloc driverBloc, LocationBloc locationBloc) async {
     LatLng? location;
-    List<Drivers> drivers;
+    List<Driver> drivers;
     Iterable<Polyline> polylines;
     Set<Polyline> polylinesDrivers;
     add(OnStartFollowingDriversEvent());    
@@ -75,7 +75,7 @@ class DriverBloc extends Bloc<DriverEvent, DriverState> {
         if (drivers.isEmpty) {
           polylinesDrivers = {};
         } else {
-          polylines = drivers.map((Drivers e) => _getPolyline(e));
+          polylines = drivers.map((Driver e) => _getPolyline(e));
           polylinesDrivers = Set<Polyline>.from( polylines.toSet());
         }
         driverBloc.add(OnUpdateListaDriversEvent(driversAux: drivers));
@@ -84,7 +84,7 @@ class DriverBloc extends Bloc<DriverEvent, DriverState> {
     });
   }
 
-  Polyline _getPolyline(Drivers d)=> Polyline(
+  Polyline _getPolyline(Driver d)=> Polyline(
     polylineId: PolylineId('${d.id}'),
     points: [LatLng(d.currentLat, d.currentLong)],
   );

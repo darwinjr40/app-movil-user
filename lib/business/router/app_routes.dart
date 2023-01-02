@@ -34,7 +34,7 @@ class AppRoutes {
     MenuOption(
       route: 'client/travel/request',
       name: 'client Screen',
-      screen:  ClientTravelRequestPage(),
+      screen:  const ClientTravelRequestPage(),
       icon: Icons.map_outlined,
     ),
   ];

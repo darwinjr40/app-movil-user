@@ -17,7 +17,7 @@ class BusService {
 
   
   Future<Map<String, Set<Polyline>>?> loadBus() async {
-    const url = (baseUrl + 'bus/all');
+    const url = '${baseUrl}bus/all';
     final resp = await http.get(Uri.parse(url));
     var decodedResp = json.decode(resp.body);
     Map<String, Set<Polyline>> routes;

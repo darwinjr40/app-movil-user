@@ -2,7 +2,7 @@ part of 'driver_bloc.dart';
 
 class DriverState extends Equatable {
   final bool followingDrivers;
-  final List<Drivers> listaDrivers;
+  final List<Driver> listaDrivers;
   final Set<Polyline> polylinesDrivers;
   final bool btnDriver;
   final int busID;
@@ -16,7 +16,7 @@ class DriverState extends Equatable {
   });
 
   DriverState copyWith({
-    List<Drivers>? listaDrivers,
+    List<Driver>? listaDrivers,
     Set<Polyline>? polylinesDrivers,
     bool? btnDriver,
     int? busID,

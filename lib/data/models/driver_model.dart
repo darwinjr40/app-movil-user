@@ -21,8 +21,8 @@ import 'dart:convert';
 //     };
 // }
 
-class Drivers {
-  Drivers({
+class Driver {
+  Driver({
     required this.id,
     required this.inDate,
     this.outDate,
@@ -52,7 +52,7 @@ class Drivers {
   Vehicle vehicle;
   User user;
 
-  Drivers copyWith({
+  Driver copyWith({
     int? id,
     String? inDate,
     String? outDate,
@@ -67,7 +67,7 @@ class Drivers {
     Vehicle? vehicle,
     User? user,
   }) =>
-      Drivers(
+      Driver(
         id: id ?? this.id,
         inDate: inDate ?? this.inDate,
         outDate: outDate ?? this.outDate,
@@ -83,11 +83,11 @@ class Drivers {
         user: user ?? this.user,
       );
 
-  factory Drivers.fromJson(String str) => Drivers.fromMap(json.decode(str));
+  factory Driver.fromJson(String str) => Driver.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory Drivers.fromMap(Map<String, dynamic> json) => Drivers(
+  factory Driver.fromMap(Map<String, dynamic> json) => Driver(
         id: json["id"],
         inDate: json["inDate"],
         outDate: json["outDate"],

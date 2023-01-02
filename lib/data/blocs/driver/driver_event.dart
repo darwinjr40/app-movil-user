@@ -33,6 +33,6 @@ class OnBusIDEvent extends DriverEvent {
 class OnStartFollowingDriversEvent extends DriverEvent {}
 
 class OnUpdateListaDriversEvent extends DriverEvent {
-  final List<Drivers> driversAux;
+  final List<Driver> driversAux;
   const OnUpdateListaDriversEvent({required this.driversAux});
 }

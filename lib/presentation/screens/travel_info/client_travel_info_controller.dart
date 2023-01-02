@@ -78,13 +78,17 @@ class ClientTravelInfoController {
   }
   void calculatePrice() async {
     // Price prices = await _priceService.getAll();
-    Price prices = Price(km: 3, min: 1, minValue: 5);
-    double kmValue = double.parse(km.split(" ")[0]) * prices.km;
-    double minValue = double.parse(min.split(" ")[0]) * prices.min;
-    double total = kmValue + minValue;
-    minTotal = total - 3;
-    maxTotal = total + 3;
-    refresh();
+    try {
+      Price prices = Price(km: 3, min: 1, minValue: 5);
+      double kmValue = double.parse(km.split(" ")[0]) * prices.km;
+      double minValue = double.parse(min.split(" ")[0]) * prices.min;
+      double total = kmValue + minValue;
+      minTotal = total - 3;
+      maxTotal = total + 3;
+      refresh();      
+    } catch (error) {
+      debugPrint("calculatePrice: $error");
+    }
   }
   Future<void> setPolylines() async {
     PointLatLng pointFromLatLng = PointLatLng(mapBloc.state.fromLatLng!.latitude, mapBloc.state.fromLatLng!.longitude);
