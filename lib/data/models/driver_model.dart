@@ -35,8 +35,8 @@ class Driver {
     this.createdAt,
     this.updatedAt,
     this.token,
-    required this.vehicle,
-    required this.user,
+    this.vehicle,
+    this.user,
   });
 
   int id;
@@ -51,8 +51,8 @@ class Driver {
   DateTime? createdAt;
   DateTime? updatedAt;
   String? token;
-  Vehicle vehicle;
-  User user;
+  Vehicle? vehicle;
+  User? user;
 
   Driver copyWith({
     int? id,
@@ -106,8 +106,8 @@ class Driver {
             ? null
             : DateTime.parse(json["updated_at"]),
         token: json["token"],
-        vehicle: Vehicle.fromMap(json["vehicle"]),
-        user: User.fromMap(json["user"]),
+        // vehicle: Vehicle.fromMap(json["vehicle"]),
+        // user: User.fromMap(json["user"]),
       );
 
   Map<String, dynamic> toMap() => {
@@ -122,9 +122,14 @@ class Driver {
         "vehicle_id": vehicleId,
         "created_at": createdAt == null ? null : createdAt!.toIso8601String(),
         "updated_at": updatedAt == null ? null : updatedAt!.toIso8601String(),
-        "vehicle": vehicle.toMap(),
-        "user": user.toMap(),
+        "vehicle": vehicle?.toMap(),
+        "user": user?.toMap(),
       };
+
+      @override
+  String toString() {
+    return 'id : $id, inDate : $inDate, outDate : $outDate, taken : $taken, status : $status, currentLat : $currentLat, currentLong : $currentLong, userId : $userId, vehicleId : $vehicleId, createdAt: $createdAt, updatedAt: $updatedAt, token: $token,     ';
+  }
 }
 
 class User {

@@ -39,4 +39,24 @@ class DriverService extends ChangeNotifier {
     return listaDriver;    
   }
 
+
+  static Future<Driver?> getbyId(String idDriver) async {
+    Driver? driver;
+    try {
+      final url = '${baseUrl}drivers/getById/$idDriver';
+      final resp = await http.get(
+        Uri.parse(url),
+        headers: {'Accept' : 'application/json'},
+      );
+      if (resp.statusCode == 200) {
+        driver = Driver.fromJson(resp.body);
+      } else {
+        debugPrint('ERROR <DriverService>getbyId: ${resp.body}');
+      }           
+    } catch(error) {
+      debugPrint('ERROR TRY CATCH <DriverService>getbyId: ${error.toString()}');
+    }    
+      return driver;
+  }
+
 }

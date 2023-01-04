@@ -173,8 +173,8 @@ class _MapScreenState extends State<MapScreen> {
       child: BtnSolicit(
         onPressed: requestDriver,
         text: 'SOLICITAR',
-        color: Colors.amber,
-        textColor: Colors.black,
+        color: Colors.black,
+        textColor: Colors.white,
       ),
     );
   }

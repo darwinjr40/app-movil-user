@@ -44,7 +44,8 @@ class ClientTravelRequestController {
       if (travelInfo.idDriver != '-' && travelInfo.status == 'accepted') {
         _travelInfoService.timer.cancel();
         // Navigator.pushNamedAndRemoveUntil(context, 'client/travel/map', (route) => false);
-        Navigator.pushNamed(context, 'client/travel/map');
+        // Navigator.pushNamed(context, 'client/travel/map');
+        Navigator.pushReplacementNamed(context, 'client/travel/map');
       } else if (travelInfo.status == 'no_accepted'){
         _travelInfoService.timer.cancel();
         Snackbar.showSnackbar(context, "El conductor no acepto tu solicitud");

@@ -27,8 +27,10 @@ class BtnSolicit extends StatelessWidget {
       onPressed: () {
         onPressed!();
       },
-      // color: color,
-      // textColor: textColor,
+      style: ElevatedButton.styleFrom(
+        primary: color, // background
+        onPrimary: textColor, // foreground
+      ),
       child: Stack(
         children: [
           Align(
@@ -51,11 +53,11 @@ class BtnSolicit extends StatelessWidget {
               height: 50,
               child: CircleAvatar(
                 radius: 15,
+                backgroundColor: Colors.black,
                 child: Icon(
                   icon,
                   color: const Color(0xFF222327),
                 ),
-                backgroundColor: Colors.black,
               ),
             ),
           )
