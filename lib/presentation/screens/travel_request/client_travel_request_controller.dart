@@ -43,7 +43,8 @@ class ClientTravelRequestController {
     _streamStatusSubscription = stream.listen((TravelInfo travelInfo) {      
       if (travelInfo.idDriver != '-' && travelInfo.status == 'accepted') {
         _travelInfoService.timer.cancel();
-        Navigator.pushNamedAndRemoveUntil(context, 'client/travel/map', (route) => false);
+        // Navigator.pushNamedAndRemoveUntil(context, 'client/travel/map', (route) => false);
+        Navigator.pushNamed(context, 'client/travel/map');
       } else if (travelInfo.status == 'no_accepted'){
         _travelInfoService.timer.cancel();
         Snackbar.showSnackbar(context, "El conductor no acepto tu solicitud");
@@ -57,6 +58,7 @@ class ClientTravelRequestController {
   void dispose () {
     // _streamSubscription.cancel();
     _streamStatusSubscription.cancel();
+    _travelInfoService.timer.cancel();
   }
 
   void _getNearbyDrivers() {
@@ -95,7 +97,7 @@ class ClientTravelRequestController {
       toLng: mapBloc.state.toLatLng!.longitude,
       status: 'created'
     );
-    await _travelInfoService.create(travelInfo);
+    await _travelInfoService.createOrUpdate(travelInfo);
     _checkDriverResponse();
 
   }

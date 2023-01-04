@@ -15,12 +15,12 @@ class TravelInfoService {
   // }
   late Timer timer;
   
-  Future<void> create(TravelInfo travelInfo) async {
+  Future<void> createOrUpdate(TravelInfo travelInfo) async {
     try {
       // return _ref.doc(travelInfo.id).set(travelInfo.toJson());
       debugPrint(travelInfo.toMap().toString());
-      const url = '${baseUrl}travel-info/store';
-      final resp = await http.post(
+      final url = '${baseUrl}travel-info/update/${travelInfo.idCode}';
+      final resp = await http.put(
         Uri.parse(url),
         headers: {'Accept' : 'application/json'},
         body: travelInfo.toMap(),
