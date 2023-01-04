@@ -92,7 +92,7 @@ class ClientTravelMapController {
   void getDriverInfo(String idDriver) async{
     debugPrint('getDriverInfo--------------');
     try {
-      timer = Timer.periodic(const Duration(seconds: 6), (timer) async {
+      timer = Timer.periodic(const Duration(seconds: 3), (timer) async {
         driver = await DriverService.getbyId(idDriver);
         if (driver != null) {
           _driverLatLng = LatLng(driver!.currentLat, driver!.currentLong);
@@ -122,21 +122,25 @@ class ClientTravelMapController {
   
   void checkTravelStatus() async {          
       travelInfo = await TravelInfoService.getbyId(PushNotificationService.token!);
-      if (travelInfo!.status == 'accepted') {
-        currentStatus = 'Viaje aceptado';
-        colorStatus = Colors.green;
-        pickupTravel();
+      try {
+        if (travelInfo!.status == 'accepted') {
+          currentStatus = 'Viaje aceptado';
+          colorStatus = Colors.green;
+          pickupTravel();
+        }
+        else if (travelInfo!.status == 'started') {
+          currentStatus = 'Viaje iniciado';
+          colorStatus = Colors.amber;
+          startTravel();
+        }
+        else if (travelInfo!.status == 'finished') {
+          currentStatus = 'Viaje finalizado';
+          colorStatus = Colors.red;
+        }
+        refresh();        
+      } catch (error) {
+        debugPrint('ERROR TRY CACH: $error');
       }
-      else if (travelInfo!.status == 'started') {
-        currentStatus = 'Viaje iniciado';
-        colorStatus = Colors.amber;
-        startTravel();
-      }
-      else if (travelInfo!.status == 'finished') {
-        currentStatus = 'Viaje finalizado';
-        colorStatus = Colors.red;
-      }
-      refresh();
     
   }
 
