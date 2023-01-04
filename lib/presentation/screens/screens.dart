@@ -9,3 +9,4 @@ export 'package:micros_user_app/presentation/screens/travel_info/client_travel_i
 export 'package:micros_user_app/presentation/screens/travel_info/client_travel_info_controller.dart';
 export 'package:micros_user_app/presentation/screens/travel_request/client_travel_request_controller.dart';
 export 'package:micros_user_app/presentation/screens/travel_request/client_travel_request_page.dart';
+export 'package:micros_user_app/presentation/screens/travel_map/client_travel_map_page.dart';

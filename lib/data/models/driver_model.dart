@@ -34,6 +34,7 @@ class Driver {
     required this.vehicleId,
     this.createdAt,
     this.updatedAt,
+    this.token,
     required this.vehicle,
     required this.user,
   });
@@ -49,6 +50,7 @@ class Driver {
   int vehicleId;
   DateTime? createdAt;
   DateTime? updatedAt;
+  String? token;
   Vehicle vehicle;
   User user;
 
@@ -103,6 +105,7 @@ class Driver {
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"]),
+        token: json["token"],
         vehicle: Vehicle.fromMap(json["vehicle"]),
         user: User.fromMap(json["user"]),
       );

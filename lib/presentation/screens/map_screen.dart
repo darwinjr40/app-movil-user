@@ -39,6 +39,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void dispose() {
     locationBloc.stopFollowingUser();
+    driverBloc.stopFollowingDrivers();
     super.dispose();
   }
 

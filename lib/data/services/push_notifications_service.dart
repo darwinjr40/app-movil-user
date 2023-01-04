@@ -15,25 +15,25 @@ import 'package:micros_user_app/env.dart';
 class PushNotificationService {
   static FirebaseMessaging messaging = FirebaseMessaging.instance;
   static String? token;
-  static StreamController<String> _messageStream = StreamController.broadcast();
+  static final StreamController<String> _messageStream = StreamController.broadcast();
   static Stream<String> get messagesStream => _messageStream.stream;
 
   static Future _backgroundHandler(RemoteMessage message) async {
-    // debugPrint( 'onBackground Handler ${ message.messageId }');
+    debugPrint( 'onBackground Handler ${ message.messageId }');
     print(message.data);
     _messageStream.add(message.data['product'] ?? 'No data');
     // _messageStream.add( message.notification?.title ?? 'No title' );
   }
 
   static Future _onMessageHandler(RemoteMessage message) async {
-    // debugPrint( 'onMessage Handler ${ message.messageId }');
+    debugPrint( 'onMessage Handler ${ message.messageId }');
     print(message.data);
     _messageStream.add(message.data['product'] ?? 'No data');
     // _messageStream.add( message.notification?.title ?? 'No title' );
   }
 
   static Future _onMessageOpenApp(RemoteMessage message) async {
-    // debugPrint( 'onMessageOpenApp Handler ${ message.messageId }');
+    debugPrint( 'onMessageOpenApp Handler ${ message.messageId }');
     print(message.data);
     _messageStream.add(message.data['product'] ?? 'No data');
     // _messageStream.add( message.notification?.title ?? 'No title' );

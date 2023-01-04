@@ -38,11 +38,11 @@ class TravelInfo {
         from:               json["from"]  ??  '',
         to:                 json["to"]  ??  '',
         idTravelHistory:    json["idTravelHistory"] ??'',
-        fromLat:            json["fromLat"]?.toDouble() ?? 0,
-        fromLng:            json["fromLng"]?.toDouble() ?? 0,
-        toLat:              json["toLat"]?.toDouble() ?? 0,
-        toLng:              json["toLng"]?.toDouble() ?? 0,
-        price:              json["price"]?.toDouble() ?? 0,
+        fromLat:            double.parse(json["fromLat"]),
+        fromLng:            double.parse(json["fromLng"]),
+        toLat:              double.parse(json["toLat"]),
+        toLng:              double.parse(json["toLng"]),
+        price:              double.parse(json["price"]),
     );
 
     Map<String, String> toMap() => {
@@ -58,4 +58,6 @@ class TravelInfo {
         "toLng": toLng.toString(),
         "price": price.toString(),
     };
+
+    
 }

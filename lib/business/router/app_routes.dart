@@ -44,8 +44,8 @@ class AppRoutes {
 
     appRoutes
         .addAll({'loading': (BuildContext context) => const LoadingScreen()});
-    appRoutes
-        .addAll({'message': (BuildContext context) => const MessageScreen()});
+    appRoutes.addAll({'message': (BuildContext context) => const MessageScreen()});
+    appRoutes.addAll({'client/travel/map': (BuildContext context) => const ClientTravelMapPage()});
 
     for (final option in menuOptions) {
       appRoutes.addAll({option.route: (BuildContext context) => option.screen});

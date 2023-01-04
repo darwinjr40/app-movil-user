@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:micros_user_app/data/blocs/blocs.dart';
 import 'package:micros_user_app/data/models/models.dart';
 import 'package:micros_user_app/data/services/services.dart';
+import 'package:micros_user_app/presentation/utils/utils.dart';
 
 class ClientTravelRequestController {
 
@@ -16,7 +17,9 @@ class ClientTravelRequestController {
   
   late TravelInfoService _travelInfoService;
   // late DriverService _driverService;
-  late StreamSubscription<List<Driver>> _streamSubscription;
+  // late StreamSubscription<List<Driver>> _streamSubscription;
+
+  late StreamSubscription<TravelInfo> _streamStatusSubscription;
 
   List<String> nearbyDrivers = [];
 
@@ -35,9 +38,25 @@ class ClientTravelRequestController {
     _getNearbyDrivers();
   }
 
+  void _checkDriverResponse() async {
+    Stream<TravelInfo> stream =  _travelInfoService.getByIdStream(PushNotificationService.token!);
+    _streamStatusSubscription = stream.listen((TravelInfo travelInfo) {      
+      if (travelInfo.idDriver != '-' && travelInfo.status == 'accepted') {
+        _travelInfoService.timer.cancel();
+        Navigator.pushNamedAndRemoveUntil(context, 'client/travel/map', (route) => false);
+      } else if (travelInfo.status == 'no_accepted'){
+        _travelInfoService.timer.cancel();
+        Snackbar.showSnackbar(context, "El conductor no acepto tu solicitud");
+        Future.delayed(const Duration(milliseconds: 4000), (){
+            Navigator.pushNamedAndRemoveUntil(context, 'loading', (route) => false);
+        });
+      }
+    });
+  }
 
   void dispose () {
-    _streamSubscription.cancel();
+    // _streamSubscription.cancel();
+    _streamStatusSubscription.cancel();
   }
 
   void _getNearbyDrivers() {
@@ -54,16 +73,20 @@ class ClientTravelRequestController {
     //   }
     // });
     final drivers = driverBloc.state.listaDrivers;
+    debugPrint('${drivers[0].token}--------------------------');
+
     final driversString = drivers.map((Driver e) => e.id.toString());
     nearbyDrivers = List<String>.of(driversString);
     debugPrint('${nearbyDrivers.length}--------------------------');
-    getDriverInfo(nearbyDrivers[0]);
-    // getDriverInfo("");
-    // _streamSubscription.cancel();
+    if (drivers.isNotEmpty) {
+      getDriverInfo(drivers[0]);
+      // getDriverInfo(nearbyDrivers[0]);
+      // _streamSubscription.cancel();
+    }
   }
   void _createTravelInfo() async {
     TravelInfo travelInfo =  TravelInfo(
-      idCode: UniqueKey().toString(),
+      idCode: PushNotificationService.token ?? "1",
       from: mapBloc.state.from!,
       to: mapBloc.state.to!,
       fromLat: mapBloc.state.fromLatLng!.latitude,
@@ -73,24 +96,28 @@ class ClientTravelRequestController {
       status: 'created'
     );
     await _travelInfoService.create(travelInfo);
+    _checkDriverResponse();
+
   }
 
-  Future<void> getDriverInfo(String idDriver) async {
+  Future<void> getDriverInfo(Driver driver) async {
     // Driver driver = await _driverProvider.getById(idDriver);
-    // _sendNotification(driver.token);
-    _sendNotification('dlUKq-YKS6aIlEBxFw3CZj:APA91bFQaEqd2njs25yqTdG0_ZYLeAw69BT_EFlP5uOgUkPpZKs5P56LFrP8Mo3ghDzrS2uAyy9OkvLX8xdwoshCcRtrHYvG366HCmv2SPEYDvBbxZHW3l9XUGL_mftjqu_gnw4tLvxb');
+    if (driver.token != null) {
+      // _sendNotification('dlUKq-YKS6aIlEBxFw3CZj:APA91bFQaEqd2njs25yqTdG0_ZYLeAw69BT_EFlP5uOgUkPpZKs5P56LFrP8Mo3ghDzrS2uAyy9OkvLX8xdwoshCcRtrHYvG366HCmv2SPEYDvBbxZHW3l9XUGL_mftjqu_gnw4tLvxb');      
+      _sendNotification(driver.token!);
+    }
   }
 
   void _sendNotification(String token) {
-    print('TOKEN: $token');
+    Map<String, dynamic> data = {
+      'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+      // 'idClient': _authProvider.getUser().uid,
+      'tokenClient': PushNotificationService.token ?? '',
+      'origin': mapBloc.state.from!,
+      'destination': mapBloc.state.to!,
+    };
 
-    // Map<String, dynamic> data = {
-    //   'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-    //   'idClient': _authProvider.getUser().uid,
-    //   'origin': from,
-    //   'destination': to,
-    // };
-    // _pushNotificationsProvider.sendMessage(token, data, 'Solicitud de servicio', 'Un cliente esta solicitando viaje');
-    PushNotificationService.sendMessage(token, {'a':'e'}, 'Solicitud de servicio1', 'Un cliente esta solicitando viaje1');
+    debugPrint(data.toString());
+    PushNotificationService.sendMessage(token, data, 'Solicitud de servicio', 'Un cliente esta solicitando viaje');
   }
 }

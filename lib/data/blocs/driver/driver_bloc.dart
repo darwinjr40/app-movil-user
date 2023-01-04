@@ -67,7 +67,7 @@ class DriverBloc extends Bloc<DriverEvent, DriverState> {
     List<Driver> drivers;
     Iterable<Polyline> polylines;
     Set<Polyline> polylinesDrivers;
-    add(OnStartFollowingDriversEvent());    
+    // add(OnStartFollowingDriversEvent());
     positionStream = Geolocator.getPositionStream().listen((event) async{      
       location = locationBloc.state.lastKnownLocation;
       if (location != null) {
@@ -78,6 +78,7 @@ class DriverBloc extends Bloc<DriverEvent, DriverState> {
           polylines = drivers.map((Driver e) => _getPolyline(e));
           polylinesDrivers = Set<Polyline>.from( polylines.toSet());
         }
+        debugPrint('POLYLINES: ${polylinesDrivers.length}------------------------');
         driverBloc.add(OnUpdateListaDriversEvent(driversAux: drivers));
         mapBloc.add(OnDrawRouteMarkerEvent(polylines: polylinesDrivers));
       }
@@ -89,4 +90,8 @@ class DriverBloc extends Bloc<DriverEvent, DriverState> {
     points: [LatLng(d.currentLat, d.currentLong)],
   );
   
+  void stopFollowingDrivers() {
+    positionStream?.cancel();
+    // add(OnStopFollowingUser());
+  }
 }
