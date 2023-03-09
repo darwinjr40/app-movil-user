@@ -67,7 +67,7 @@ class MapView extends StatelessWidget {
       double lng = pos.target.longitude;
       try {
         List<Placemark> address = await placemarkFromCoordinates(lat, lng);
-        // print(address);
+        print(address);
         if (address.isNotEmpty) {
             String direction = address[0].thoroughfare!;
             String street = address[0].subThoroughfare!;
@@ -87,7 +87,11 @@ class MapView extends StatelessWidget {
               mapBloc.add(UpdateToLatLngEvent(toLngEvent: toLatLng));
             }
 
+<<<<<<< HEAD
             // final geocodingInv = await googleService.getGeoInv(lat, lng);
+=======
+            final geocodingInv = await googleService.getGeoInv(lat, lng);
+>>>>>>> 84defd9bc39b308753ce029fe98e9562b60b7aca
             
         }
       } catch (e) {
