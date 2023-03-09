@@ -92,7 +92,7 @@ class ClientTravelMapController {
   void getDriverInfo(String idDriver) async{
     debugPrint('getDriverInfo--------------');
     try {
-      timer = Timer.periodic(const Duration(seconds: 3), (timer) async {
+      timer = Timer.periodic(const Duration(seconds: 6), (timer) async {
         driver = await DriverService.getbyId(idDriver);
         if (driver != null) {
           _driverLatLng = LatLng(driver!.currentLat, driver!.currentLong);
@@ -155,10 +155,15 @@ class ClientTravelMapController {
   }
 
   void getTravelInfo() async{
-    travelInfo = await TravelInfoService.getbyId(PushNotificationService.token!);
-    if (travelInfo != null) {      
-      getDriverInfo(travelInfo!.idDriver);
-      refresh();
+    try {
+      travelInfo = await TravelInfoService.getbyId(PushNotificationService.token!);
+      if (travelInfo != null) {      
+        getDriverInfo(travelInfo!.idDriver);
+        refresh();
+      }
+      
+    } catch (e) {
+      
     }
     // Stream<DocumentSnapshot> driverStream = _driverProvider.getByIdStream(_authProvider.getUser().uid);
     // _driverInfoSuscription = driverStream.listen((DocumentSnapshot document) {
@@ -167,6 +172,8 @@ class ClientTravelMapController {
   }
 
   void startTravel() {
+    try {
+      
     if (!isStartTravel) {
       isStartTravel = true;
       polylines = {};
@@ -184,6 +191,9 @@ class ClientTravelMapController {
       LatLng to =  LatLng(travelInfo!.toLat, travelInfo!.toLng);
       setPolylines(from, to);
       refresh();
+    }
+    } catch (e) {
+      
     }
   }
   

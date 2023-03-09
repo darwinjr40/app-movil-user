@@ -5,6 +5,7 @@ import 'package:micros_user_app/data/blocs/blocs.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 // import 'package:geocoder/geocoder.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:micros_user_app/data/services/services.dart';
 
 class MapView extends StatelessWidget {
   final LatLng initialLocation;
@@ -60,12 +61,13 @@ class MapView extends StatelessWidget {
 
 
   Future<void> setLocationDraggableInfo(MapBloc mapBloc) async {
+    final  googleService = GoogleService();
     final pos = mapBloc.state.position;
       double lat = pos.target.latitude;
       double lng = pos.target.longitude;
       try {
         List<Placemark> address = await placemarkFromCoordinates(lat, lng);
-
+        // print(address);
         if (address.isNotEmpty) {
             String direction = address[0].thoroughfare!;
             String street = address[0].subThoroughfare!;
@@ -84,6 +86,9 @@ class MapView extends StatelessWidget {
               mapBloc.add(UpdateToEvent(toEvent: to));
               mapBloc.add(UpdateToLatLngEvent(toLngEvent: toLatLng));
             }
+
+            // final geocodingInv = await googleService.getGeoInv(lat, lng);
+            
         }
       } catch (e) {
         debugPrint(e.toString());
